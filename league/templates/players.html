@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    test test test test test test
+    <a href="{% url 'do_shit' %}">
+        <button>add 5 players</button>
+    </a>
+
+    <form method="post" action="{% url 'do_shit' %}">
+        {% csrf_token %}
+        <input type="number" name="num">
+    </form>
+    <a href="{% url 'table' %}">
+        <button>go to table</button>
+    </a>
+    
+    
+
+    
+    
+    
+    {% if text %}
+    <h1>{{ text }}</h1>
+    {% else %}
+    <p>No text generated.</p>
+    {% endif %}
+</body>
+</html>
+

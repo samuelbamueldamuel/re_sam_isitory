@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    #title{
+        font-size: 50px;
+        position: relative;
+        left: 600px;
+        top: -50px;
+    }
+</style>
+</head>
+<body>
+    <a href="{% url 'ssdraft' %}">
+        <button>go to table</button>
+    </a>
+    <p id="title">The Draft</p>
+
+    <div>
+        <table id="p" style="border: 5px solid black;">
+            <tr style="border: 5px solid black;">
+                <th colspan="4">Available Players</th>
+            </tr>
+            <tr style="border: 5px solid black;">
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Position</th>
+                <th>Overall</th>
+            </tr>
+            {% for item in prospects %}
+            <tr style="border: 5px solid black;">
+                <td>{{item.first_name}}</td>
+                <td>{{item.last_name}}</td>
+                <td>{{item.pos}}</td>
+                <td>{{item.ovr}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+    </div>
+
+    <div style="position: relative; top: -2400px; left: 800px;">
+        <table>
+            <tr>
+                <th colspan="4">Team Order</th>
+            </tr>
+            <tr>
+                <th>
+                    Pick Number
+                </th>
+                <th>
+                    Team Name
+                </th>
+                <th>
+                    Selected Player
+                </th>
+                <th>
+                    Overall
+                </th>
+            </tr>
+            {% for x in rounds %}
+                {% for team in teams %}
+                <tr>
+                    <td>{{ forloop.parentloop.counter0 * teams|length + forloop.counter }}</td>
+                    <td>{{team.name}}</td>
+                    <td></td>
+                    <td></td>
+
+                </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
