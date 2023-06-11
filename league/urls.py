@@ -8,5 +8,7 @@ urlpatterns = [
     path('do_shit/', views.do_shit, name = 'do_shit'),
     path('table/', views.table, name='table'),
     path('sdraft/', views.sdraft, name='draft'),
-    path('ssdraft/', views.ssdraft, name='ssdraft')
+    path('ssdraft/', views.ssdraft, name='ssdraft'),
+    path('<str:t_id>/roster', views.roster, name='roster'),
+    
 ]

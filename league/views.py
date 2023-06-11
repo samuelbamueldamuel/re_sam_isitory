@@ -31,7 +31,7 @@ def table(request):
 
 def sdraft(request):
     prospects = Player.objects.filter(team_id='FA').order_by('-ovr')
-    teams = Team.objects.all().exclude(id='FA')
+    teams = Team.objects.all().exclude(t_id='FA')
 
     round = rounds(prospects, teams)
     roundx = int(round)
@@ -39,7 +39,7 @@ def sdraft(request):
     i = 1
     list = []
 
-    draft()
+    
 
     
         
@@ -54,15 +54,29 @@ def sdraft(request):
     return render(request, 'sdraft.html', context)
 
 def ssdraft(request):
+
+    draft()
     prospects = Player.objects.filter(team_id='FA').order_by('-ovr')
     teams = Team.objects.all().exclude(id='FA')
     
     
-
+    
     context = {
         'prospects': prospects
     }
 
     return render(request, 'sdraft.html', context)
+
+def roster(request, t_id):
+    teamPlayers = Player.objects.filter(team_id=t_id).order_by('ovr')
+    team = Team.objects.filter(t_id=t_id)
+
+    context = {
+        'players': teamPlayers,
+        'id': t_id,
+        'team': team,
+    }
+
+    return render(request, 'roster.html', context)
 
 # Create your views here.

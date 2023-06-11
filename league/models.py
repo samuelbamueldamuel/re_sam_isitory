@@ -3,7 +3,7 @@ from django.db import models
 class Team(models.Model):
     city = models.CharField(max_length=30)
     name = models.CharField(max_length=30)
-    id = models.CharField(max_length=3, primary_key=True)
+    t_id = models.CharField(max_length=3, primary_key=True)
 
 
 class Player(models.Model):

@@ -1,0 +1,5 @@
+'git add .'
+
+'git commit -m "words"'
+
+'git push -u origin main'
