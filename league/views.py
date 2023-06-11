@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .scripts.gen_players import birth
-from .scripts.startup_draft import rounds
+from .scripts.startup_draft import rounds, draft
 from .models import Player, Team
 
 
@@ -38,6 +38,9 @@ def sdraft(request):
     roundss = range(roundx)
     i = 1
     list = []
+
+    draft()
+
     
         
 
