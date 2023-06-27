@@ -1,0 +1,27 @@
+i want categories that give weight to attrbiutes
+
+-shooter
+    -3pt
+    -mid
+    -standshot
+    -moveshot
+-playmaker
+    -passing accuracy
+    -dribbling
+    -find open dude?
+slashing
+    -drive
+    -dunk
+    -layup
+post
+    -backdown
+    -postmove
+    -close shot
+    -oBoard
+    -dBoard
+defense  
+    -perimeter defense
+    -post defense
+    -closeout?
+    -steal
+    -reconition
