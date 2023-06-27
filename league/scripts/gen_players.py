@@ -322,8 +322,11 @@ def ovr(three, mid, close, dribble, passing, perimeter_defense, post_defense, st
     return ovr
 
 def birth():
-    fName = str(get_fname())
-    lName = str(get_lname())
+    # fName = str(get_fname())
+    # lName = str(get_lname())
+
+    fName = "Player"
+    lName = "McPlayer"
 
     pos = get_pos()
     height = str(get_height(pos))

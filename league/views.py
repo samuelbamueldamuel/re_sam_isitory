@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from .scripts.gen_players import birth
 from .scripts.startup_draft import rounds, draft
 from .models import Player, Team
+from .scripts.delete_players import deletePlayers
+import time
 
 
 def player(request):
@@ -16,11 +18,26 @@ def player(request):
 def do_shit(request):
     number = request.POST.get('num')
     num = int(number)
+    sTime = time.time()
     for i in range(num):
         birth()
+    eTime = time.time()
+
+    execTime = str(eTime - sTime)
+    execTimeInt = eTime - sTime
+    timePer = execTimeInt/num
+
+    print("Players generated:" + number)
+    print("Total time taken: " + str(execTimeInt))
+    print("Time per player: "  + str(timePer))
+
+    context = {
+        "playersGenerated": num,
+        "execTimeInt": execTimeInt,
+        "timePer": timePer,
+    }
     
-    
-    return render(request, 'players.html')
+    return render(request, 'players.html', context)
 
 def table(request):
     mydata = Player.objects.all().values()
@@ -51,26 +68,26 @@ def sdraft(request):
 
     }
 
-    return render(request, 'sdraft.html', context)
+    return render(request, 'players.html', context)
 
 def ssdraft(request):
 
     draft()
-    prospects = Player.objects.filter(team_id='FA').order_by('-ovr')
-    teams = Team.objects.all().exclude(id='FA')
+    # prospects = Player.objects.filter(team_id='FA').order_by('-ovr')
+    # teams = Team.objects.all().exclude(t_id='FA')
     
     
     
     context = {
-        'prospects': prospects
+        
     }
 
-    return render(request, 'sdraft.html', context)
+    return render(request, 'players.html', context)
 
 def roster(request, t_id):
     teamPlayers = Player.objects.filter(team_id=t_id).order_by('ovr')
-    team = Team.objects.filter(t_id=t_id)
-
+    team = Team.objects.filter(t_id=t_id).first()
+    print(team)
     context = {
         'players': teamPlayers,
         'id': t_id,
@@ -79,4 +96,17 @@ def roster(request, t_id):
 
     return render(request, 'roster.html', context)
 
+def index(request):
+    teams = Team.objects.all()
+
+    context = {
+        'teams': teams
+    }
+    return render(request, 'index.html', context)
+
+def deletePlay(request):
+    Player.objects.all().delete()
+
+
+    return render(request, 'players.html')
 # Create your views here.

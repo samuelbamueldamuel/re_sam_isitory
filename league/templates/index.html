@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<body>
+{% for team in teams %}
+<div>
+    <a href="{% url 'roster' t_id=team.t_id %}">
+        go to 
+        {{team.t_id}}
+        roster
+    </a>  
+</div>
+{% endfor %}
+
+<div>
+    <a href="{% url 'players' %}">
+        go to all players
+    </a>
+</div>
+</body>
+</head>
+</html>

@@ -25,4 +25,12 @@ class Player(models.Model):
     steal = models.IntegerField()
     block = models.IntegerField()
     test = models.IntegerField(default='1')
+
+class FName(models.Model):
+    firstName = models.CharField(max_length=55)
+
+class LName(models.Model):
+    lastName = models.CharField(max_length=55)
+
+
 # Create your models here.

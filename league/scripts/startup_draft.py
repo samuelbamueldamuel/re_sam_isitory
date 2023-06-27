@@ -25,7 +25,7 @@ def rounds(prospects, teams):
 
 def getList():  #this returns order for all rounds of draft
     prospects = Player.objects.filter(team_id='FA').order_by('-ovr').values_list('id', flat=True)
-    teams = Team.objects.all().exclude(t_id='FA').values_list('id', flat=True)
+    teams = Team.objects.all().exclude(t_id='FA').values_list('t_id', flat=True)
    
     length = len(teams)
 

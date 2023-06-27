@@ -4,28 +4,36 @@
 </head>
 <body>
     test test test test test test
-    <a href="{% url 'do_shit' %}">
-        <button>add 5 players</button>
-    </a>
+
 
     <form method="post" action="{% url 'do_shit' %}">
         {% csrf_token %}
         <input type="number" name="num">
     </form>
+    
+    <a href="{% url 'ssdraft' %}">
+        <button>assign players to team</button>
+    </a> 
+
+    <a href="{% url 'delete' %}">
+        truncate
+    </a>
+    
+    
     <a href="{% url 'table' %}">
         <button>go to table</button>
     </a>
+
+    
     
     
 
     
     
     
-    {% if text %}
-    <h1>{{ text }}</h1>
-    {% else %}
-    <p>No text generated.</p>
-    {% endif %}
+    <h1>Players generated: {{ num }}</h1>
+    <h1>Total time taken to gen: {{ execTimeInt }}</h1>
+    <h1>Time per player: {{ timePer }}</h1>
 </body>
 </html>
 

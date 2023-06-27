@@ -11,7 +11,13 @@
         <th>Position</th>
         <th>Overall</th>
     </tr>
-    
+    {% for player in players %}
+    <tr>
+        <td>{{player.first_name}} {{player.last_name}}</td>
+        <td>{{player.pos}}</td>
+        <td>{{player.ovr}}</td>
+    </tr>
+    {% endfor %}
 </table>
 </body>
 
