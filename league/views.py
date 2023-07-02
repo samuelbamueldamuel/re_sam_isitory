@@ -40,7 +40,7 @@ def do_shit(request):
     return render(request, 'players.html', context)
 
 def table(request):
-    mydata = Player.objects.all().values()
+    mydata = Player.objects.all().order_by('ovr').values()
     context = {
         'table': mydata,
     }

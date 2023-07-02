@@ -8,7 +8,7 @@ i want categories that give weight to attrbiutes
 -playmaker
     -passing accuracy
     -dribbling
-    -find open dude?
+    -dot(dimer)
 slashing
     -drive
     -dunk
@@ -22,6 +22,11 @@ post
 defense  
     -perimeter defense
     -post defense
-    -closeout?
+    -intimidation
     -steal
+    -block
     -reconition
+physical
+    -speed
+    -strength
+    -vertical

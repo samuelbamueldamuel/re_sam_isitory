@@ -1,7 +1,7 @@
 import random
 from enum import Enum
 from secrets import choice
-from league.models import Player
+from league.models import Player, FName, LName
 import time
 import requests
 
@@ -38,28 +38,40 @@ import requests
 
 
 def get_fname():
-    url = "https://api.namefake.com/"
-    response = requests.get(url).json()
-    initFName = response['name'].split()[0]
-    if (initFName == 'Mr.' or initFName == 'Dr.' or initFName == 'Mrs.' or initFName == 'Ms.'):
-        fname = response['name'].split()[2]
-    else:
-        fname = response['name'].split()[1]
+    # url = "https://api.namefake.com/"
+    # response = requests.get(url).json()
+    # initFName = response['name'].split()[0]
+    # if (initFName == 'Mr.' or initFName == 'Dr.' or initFName == 'Mrs.' or initFName == 'Ms.'):
+    #     fname = response['name'].split()[2]
+    # else:
+    #     fname = response['name'].split()[1]
 
-    return fname    
+    num = random.randint(1, 1000)
+    obj = FName.objects.values('firstName').filter(id=num).first()
+    
+    
+    fname = obj['firstName']
+
+
+    return fname
 
 
 def get_lname():
-    url = "https://api.namefake.com/"
-    response = requests.get(url).json()
+    # url = "https://api.namefake.com/"
+    # response = requests.get(url).json()
     
-    initFName = response['name'].split()[0]
+    # initFName = response['name'].split()[0]
 
-    if (initFName == 'Mr.' or initFName == 'Dr.' or initFName == 'Mrs.' or initFName == 'Ms.'):
-        lname = response['name'].split()[2]
-    else:
-        lname = response['name'].split()[1]
-        
+    # if (initFName == 'Mr.' or initFName == 'Dr.' or initFName == 'Mrs.' or initFName == 'Ms.'):
+    #     lname = response['name'].split()[2]
+    # else:
+    #     lname = response['name'].split()[1]
+
+    num = random.randint(1, 1000)
+    obj = LName.objects.values('lastName').filter(id=num).first()
+    
+    
+    lname = obj['lastName']
 
     return lname
 
@@ -173,8 +185,8 @@ def lastDig(posX, fDig):
             dig = random.choices(potDigs, weights=weight)
             return dig
 
-def get_height(pos):
-    
+def get_height(pos): # i hate my life why did I do this to myself holy shit WHAT WAS I SMOKING 
+    #words can not express how much I hate myself for writing this function like this but Im too lazy to do it again 
     if(pos == "pg"):
         ffDig = guardFirstDig(pos)
         #print("ffDig: ", ffDig)
@@ -222,7 +234,7 @@ def thirdDig():
 
 
 
-def ranH(heights, weights):
+def ranH(heights, weights): #pretty sure its useless but dont wanna delete anything
     ran = random.choices(population=heights, weights=weights, k=1)
     return ran[0]
 
@@ -302,46 +314,100 @@ def weight_func(h):
         #print("accesed")
     
     fd = int(fdString)
-    sd = secondDig(fd)
-    td = thirdDig()
+    sd = int(secondDig(fd)[0])
+    td = int(thirdDig()[0])
 
-    weight = str(fd) + str(sd) + str(td)
+    weightString = str(fd) + str(sd) + str(td)
+    weight = int(weightString)
     # print("Height is: " + str(h))
     # print("Weight is: " + str(weight))
 
     return weight
     
+def scale():
+    potScale = [1, 2, 3, 4, 5] #love me some pot.....scale
+    weight = [.2, .3, .3, .15, .05]
 
-def randomRating():
-    num = random.randint(1,99)
-    return num
-def ovr(three, mid, close, dribble, passing, perimeter_defense, post_defense, steal, block):
-    total = three + mid + close + dribble + passing + perimeter_defense + post_defense + steal + block
-    notRound = total/9
-    ovr = round(notRound)
+    # scaleList = [.0, .0, .0, .0, .0, .0, .0, .0, .0]
+    scaleL = random.choices(potScale, weights=weight, k=1)
+    scale = scaleL[0]
+    if(scale == 1):
+        scaleList = [.3, .3, .2, .1, .1, 0, 0, 0, 0]
+    elif(scale == 2):
+        scaleList = [.1, .3, .2, .2, .1, .1, .0, .0, .0]
+    elif(scale == 3):
+        scaleList = [.0, .0, .1, .3, .3, .2, .1, .0, .0]
+    elif(scale == 4):
+        scaleList = [.0, .0, .0, .0, .3, .3, .2, .15, .05]
+    elif(scale == 5):
+        scaleList = [.0, .0, .0, .0, .1, .3, .3, .2, .1]
+
+    return scaleList
+
+def attribute(weights):
+    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    valueL = random.choices(nums, weights=weights, k=1)
+    value = valueL[0]
+    randNum = random.randint(1,9)
+    ratingL = str(value) + str(randNum)
+    rating = int(ratingL)
+
+    return rating
+
+def getOverall(three, mid, standShot, moveShot, passAcc, dribble, dot, drive, dunk, layup, backdown, postMove, closeShot, oBoard, dBoard, perDefense, postDefense, intimidation, steal, block, reconition, speed, strength, vertical):
+    #TODO num is cocantenating not adding, which means you need to make every arg an int
+    num = int(three) + int(mid)+ int(standShot) + int(moveShot) + int(passAcc) + int(dribble) + int(dot) + int(drive) + int(dunk) + int(layup) + int(backdown) + int(postMove) + int(closeShot) + int(oBoard) + int(dBoard) + int(perDefense) + int(postDefense) + int(intimidation) + int(steal) + int(block) + int(reconition) + int(speed) + int(strength) + int(vertical)
+    ovr = num/24
     return ovr
 
 def birth():
-    # fName = str(get_fname())
-    # lName = str(get_lname())
-
-    fName = "Player"
-    lName = "McPlayer"
+    fName = str(get_fname())
+    lName = str(get_lname())
+    # get_fname()
+    # fName = "Player"
+    # lName = "McPlayer"
 
     pos = get_pos()
     height = str(get_height(pos))
     weight = weight_func(height)
-    three = randomRating()
-    mid = randomRating()
-    close = randomRating()
-    dribble = randomRating()
-    passing = randomRating()
-    perimeter_defense = randomRating()
-    post_defense = randomRating()
-    steal = randomRating()
-    block = randomRating()
+    shooter = scale()
+    three = attribute(shooter)
+    mid = attribute(shooter)
+    standShot = attribute(shooter)
+    moveShot = attribute(shooter)
 
-    overall = ovr(three, mid, close, dribble, passing, perimeter_defense, post_defense, steal, block)
+    playmaker = scale()
+    passAcc = attribute(playmaker)
+    dribble = attribute(playmaker)
+    dot = attribute(playmaker)
+
+    slashing = scale()
+    drive = attribute(slashing)
+    dunk = attribute(slashing)
+    layup = attribute(slashing)
+
+    post = scale()
+    backdown = attribute(post)
+    postMove = attribute(post)
+    closeShot = attribute(post)
+    oBoard = attribute(post)
+    dBoard = attribute(post)
+
+    defense = scale()
+    perDefense = attribute(defense)
+    postDefense = attribute(defense)
+    intimidation = attribute(defense)
+    steal = attribute(defense)
+    block = attribute(defense)
+    reconition = attribute(defense)
+    
+    physical = scale()
+    speed = attribute(physical)
+    strength = attribute(physical)
+    vertical = attribute(physical)
+
+    ovr = getOverall(three, mid, standShot, moveShot, passAcc, dribble, dot, drive, dunk, layup, backdown, postMove, closeShot, oBoard, dBoard, perDefense, postDefense, intimidation, steal, block, reconition, speed, strength, vertical)
 
     # query = "INSERT INTO players (fname, lname, team_id, ovr, player_id, position, height, three, mid, close, dribble, passing, perimeter_defense, post_defense, steal, block) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     # cur = league.cursor()
@@ -351,18 +417,49 @@ def birth():
     player = Player(
         first_name=fName,
         last_name=lName,
+
         pos=pos,
         height=height,
-        ovr=overall,
+        weight=weight,
+
+        ovr=ovr,
         three=three,
         mid=mid,
-        close=close,
+        standShot=standShot,
+        moveShot=moveShot,
+
+        passAcc=passAcc,
         dribble=dribble,
-        passing=passing,
-        perimeter_defense=perimeter_defense,
-        post_defense=post_defense,
+        dot=dot,
+
+        drive=drive,
+        dunk=dunk,
+        layup=layup,
+        backdown=backdown,
+        postMove=postMove,
+        closeShot=closeShot,
+        oBoard=oBoard,
+        dBoard=dBoard,
+        
+        perDefense=perDefense,
+        postDefense=postDefense,
+        intimidation=intimidation,
         steal=steal,
         block=block,
+        reconition=reconition,
+
+        speed=speed,
+        strength=strength,
+        vertical=vertical,
+
+
+        
+
+
+
+
+
+        
         
     )
  

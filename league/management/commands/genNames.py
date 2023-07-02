@@ -42,12 +42,19 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         num = kwargs['num']
-        for i in range(num):
-            FName = self.getFName()
-            self.pushFName(FName)
+        f = 1
+        l = 1
+        # for i in range(num):
+        #     FName = self.getFName()
+        #     self.pushFName(FName)
+        #     print(f)
+        #     f += 1
+            
         for i in range(num):
             LName = self.getLName()
             self.pushLName(LName)
+            print(l)
+            l += 1
         
         
 
