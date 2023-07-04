@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<body>
+<div>welcome?</div>
+<div>this is the first page of da game</div>
+<div> pick ur team below i guess, i only have a couple shitty teams i had chatgpt come up with but eventually il let you make teams i think that shouldnt be that hard</div>
+<table>
+<tr>
+    <th>City</th>
+    <th>Name</th>
+    <th>Select</th>
+</tr>
+{% for team in teams %}
+<tr>
+    <td>{{team.city}}</td>
+    <td>{{team.name}}</td>
+    <td>
+        <a href="{% url 'makeUserTeam' t_id=team.t_id %}">
+            make this team the user team
+        </a>
+    </td>
+</tr>
+{% endfor %}
+
+</body>
+</head>
+</html>

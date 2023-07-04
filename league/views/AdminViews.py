@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .scripts.gen_players import birth
-from .scripts.startup_draft import rounds, draft
-from .models import Player, Team
-from .scripts.delete_players import deletePlayers
+from ..scripts.gen_players import birth
+from ..scripts.startup_draft import rounds, draft, printTest
+from ..scripts.makeUser import assignUser
+from ..models import Player, Team
+from ..scripts.delete_players import deletePlayers
 import time
 
 
@@ -40,7 +41,7 @@ def do_shit(request):
     return render(request, 'players.html', context)
 
 def table(request):
-    mydata = Player.objects.all().order_by('ovr').values()
+    mydata = Player.objects.all().order_by('-ovr').values()
     context = {
         'table': mydata,
     }
@@ -76,7 +77,7 @@ def ssdraft(request):
     # prospects = Player.objects.filter(team_id='FA').order_by('-ovr')
     # teams = Team.objects.all().exclude(t_id='FA')
     
-    
+    printTest()
     
     context = {
         
@@ -84,8 +85,10 @@ def ssdraft(request):
 
     return render(request, 'players.html', context)
 
+
+
 def roster(request, t_id):
-    teamPlayers = Player.objects.filter(team_id=t_id).order_by('ovr')
+    teamPlayers = Player.objects.filter(team_id=t_id).order_by('-ovr')
     team = Team.objects.filter(t_id=t_id).first()
     print(team)
     context = {
@@ -109,4 +112,21 @@ def deletePlay(request):
 
 
     return render(request, 'players.html')
+
+def makeUserTeam(request, t_id):
+    team = assignUser(t_id)
+
+    context = {
+        'team': team
+    }
+
+    return render(request, 'home.html', context)
+
+def testSelTeam(request):
+    obj = Team.objects.filter(userTeam = True).first()
+    if obj == None:
+        print("shit b roke")
+    else:
+        print("shit not broke")
+    return render(request, 'home.html')
 # Create your views here.

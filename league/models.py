@@ -4,10 +4,11 @@ class Team(models.Model):
     city = models.CharField(max_length=30)
     name = models.CharField(max_length=30)
     t_id = models.CharField(max_length=5, primary_key=True)
+    userTeam = models.BooleanField(default=False)
 
 
 class Player(models.Model):
-    team = models.ForeignKey(Team, null=True, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, null=False, default='FAA', on_delete=models.CASCADE)
     
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)

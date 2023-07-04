@@ -451,6 +451,7 @@ def birth():
         speed=speed,
         strength=strength,
         vertical=vertical,
+        
 
 
         

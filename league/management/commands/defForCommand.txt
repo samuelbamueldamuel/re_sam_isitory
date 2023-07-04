@@ -1,0 +1,9 @@
+from django.core.management.base import BaseCommand, CommandParser
+
+class Command(BaseCommand):
+    help = #string saying what command does
+
+    def handle(self, *args, **kwargs):
+        #main method code goes here gang
+        #call using
+            #py manage.py 'fileName'

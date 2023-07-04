@@ -24,8 +24,8 @@ def rounds(prospects, teams):
     return rounds 
 
 def getList():  #this returns order for all rounds of draft
-    prospects = Player.objects.filter(team_id='FA').order_by('-ovr').values_list('id', flat=True)
-    teams = Team.objects.all().exclude(t_id='FA').values_list('t_id', flat=True)
+    prospects = Player.objects.filter(team_id='FAA').order_by('-ovr').values_list('id', flat=True)
+    teams = Team.objects.all().exclude(t_id='FAA').values_list('t_id', flat=True)
    
     length = len(teams)
 
@@ -48,17 +48,29 @@ def getList():  #this returns order for all rounds of draft
     return draftOrder
 
 def draft():
+    print("test1")
     teamList = getList()
-    prospectList = Player.objects.filter(team_id='FA').order_by('-ovr').values_list('id', flat=True)
+    print("test2")
+    prospectList = Player.objects.filter(team_id='FAA').order_by('-ovr').values_list('id', flat=True)
+    print("test3")
 
     length = range(len(prospectList))
+    print("test4")
     x = 0
+    print("test5")
+    
     for i in length:
         obj = Player.objects.get(id=prospectList[x])
-
+        print("start id: " + obj.team_id)
         obj.team_id = teamList[x]
         obj.save()
+        print("end id: " + obj.team_id)
+        print("pp")
         x += 1
+    print("test6")
+
+def printTest():
+    print("does this show")
 
 
 

@@ -1,0 +1,30 @@
+.templatetable {
+    border: 5px solid black;
+    width: 100%;
+    height: 100vh; 
+}
+
+/* .table-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column; /* 
+} */
+
+.header {
+    /* flex-grow: 1; Make the team cell grow to fill available space */
+    border: 5px solid black;
+    
+    height: 100px;
+    
+}
+
+.sidebar{
+    width: 10%;
+    border: 5px solid black;
+}
+
+.main-body{
+    border: 5px solid black;
+    width: 90%;
+}

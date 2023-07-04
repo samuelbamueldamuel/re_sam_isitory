@@ -1,16 +1,20 @@
 from django.urls import path
-from . import views
+from league.views import AdminViews, UserViews
 
 # app_name = 'league'
 
 urlpatterns = [
-    path('players/', views.player, name='players'),
-    path('do_shit/', views.do_shit, name = 'do_shit'),
-    path('table/', views.table, name='table'),
-    path('sdraft/', views.sdraft, name='draft'),
-    path('ssdraft/', views.ssdraft, name='ssdraft'),
-    path('<str:t_id>/roster', views.roster, name='roster'),
-    path('index', views.index, name='index'),
-    path('delete', views.deletePlay, name='delete'),
+    path('players/', AdminViews.player, name='players'),
+    path('do_shit/', AdminViews.do_shit, name = 'do_shit'),
+    path('table/', AdminViews.table, name='table'),
+    path('sdraft/', AdminViews.sdraft, name='draft'),
+    path('ssdraft/', AdminViews.ssdraft, name='ssdraft'),
+    path('<str:t_id>/roster', AdminViews.roster, name='roster'),
+    path('index/', AdminViews.index, name='index'),
+    path('delete/', AdminViews.deletePlay, name='delete'),
+    path('welcome/', UserViews.welcome, name='welcome'),
+    path('makeUserTeam/<str:t_id>', AdminViews.makeUserTeam, name='makeUserTeam'),
+    path('testSelTeam/', AdminViews.testSelTeam, name='testSelTeam'),
+    path('home/', UserViews.home, name='home')
     
 ]
