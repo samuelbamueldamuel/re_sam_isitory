@@ -15,6 +15,8 @@ urlpatterns = [
     path('welcome/', UserViews.welcome, name='welcome'),
     path('makeUserTeam/<str:t_id>', AdminViews.makeUserTeam, name='makeUserTeam'),
     path('testSelTeam/', AdminViews.testSelTeam, name='testSelTeam'),
-    path('home/', UserViews.home, name='home')
+    path('home/', UserViews.home, name='home'),
+    path('teamRoster/', UserViews.teamRoster, name='teamRoster'),
+    
     
 ]

@@ -4,7 +4,9 @@ class Team(models.Model):
     city = models.CharField(max_length=30)
     name = models.CharField(max_length=30)
     t_id = models.CharField(max_length=5, primary_key=True)
+    conference = models.CharField(max_length=4, null=True)
     userTeam = models.BooleanField(default=False)
+
 
 
 class Player(models.Model):

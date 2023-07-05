@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<body>
-    <div style="width:100px; height: 1000px; border: 10px solid black;">
-        sidebar
-    </div>
-    <div style="font-size: 30px; position: absolute; left: 600px">
-        {{team.city}} {{team.name}}
-    </div>
+    {% load static %}
+<link rel="stylesheet" href="{% static 'tablestyle.css' %}">
 
-    <div style="font-size: 30px; position: absolute; left: 600px; top: 100px">
-        this is ur team(hopefully)
-    </div>
-</body>
 </head>
-</html>
+<body>
+<div class="table-wrapper">
+
+<table class="templatetable">
+    <tr>
+        {% include 'sidebar.html' %}
+        
+        <td colspan="2"; class="header">
+            {{team.city}} {{team.name}}
+        </td>
+    </tr>
+
+    <tr>
+        <td class="main-body">
+            main body
+        </td>
+    </tr>
+</table>
+</div>

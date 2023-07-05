@@ -1,40 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="stylesheet/tablestyle.css">
-<style>
-/* .templatetable {
-    border: 5px solid black;
-    width: 100%;
-    height: 100vh; 
-}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tablestyle.css' %}">
 
-/* .table-wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column; /* 
-} */
-
-/* .header {
-    flex-grow: 1; 
-    border: 5px solid black;
-    width: 100%;
-    
-}
-
-.sidebar{
-    width: 10%;
-    border: 5px solid black;
-}
-
-.main-body{
-    border: 5px solid black;
-    width: 90%;
-} */
-
-</style>
-
+</head>
 <body>
 <div class="table-wrapper">
 
@@ -64,5 +34,5 @@
 
 
 </body>
-</head>
+
 </html>
