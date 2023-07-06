@@ -46,6 +46,20 @@ class Player(models.Model):
     strength = models.IntegerField()
     vertical = models.IntegerField()
 
+    shooter = models.IntegerField()
+
+    playmaker = models.IntegerField()
+
+    slashing = models.IntegerField()
+
+    post = models.IntegerField()
+
+    defense = models.IntegerField()
+
+    physical = models.IntegerField()
+
+
+
 class FName(models.Model):
     firstName = models.CharField(max_length=55)
 

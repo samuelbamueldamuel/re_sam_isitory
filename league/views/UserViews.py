@@ -26,7 +26,7 @@ def home(request):
 def teamRoster(request):
     team = Team.objects.filter(userTeam = True).first()
 
-    teamPlayers = Player.objects.filter(team_id = team.t_id)
+    teamPlayers = Player.objects.filter(team_id = team.t_id).order_by('-ovr')
 
     context = {
         'team': team,
@@ -34,5 +34,24 @@ def teamRoster(request):
     }
 
     return render(request, 'teamRoster.html', context)
+
+def teams(request):
+    westTeams = Team.objects.filter(conference = 'west')
+    eastTeams = Team.objects.filter(conference = 'east')
+
+    context = {
+        'westTeams': westTeams,
+        'eastTeams': eastTeams,
+    }
+
+    return render(request, 'teams.html', context )
+
+def team(request, id):
+    selectedPlayer = Player.objects.filter(id=id).first()
+
+    context = {
+        'player': selectedPlayer
+    }
+    return render(request)
 
     

@@ -1,25 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-<body>
-<div>
-    {{team.city}} {{team.name}} Roster
-</div>
-<table>
-    <tr>
-        <th>Player Name</th>
-        <th>Position</th>
-        <th>Overall</th>
-    </tr>
-    {% for player in players %}
-    <tr>
-        <td>{{player.first_name}} {{player.last_name}}</td>
-        <td>{{player.pos}}</td>
-        <td>{{player.ovr}}</td>
-    </tr>
-    {% endfor %}
-</table>
-</body>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tablestyle.css' %}">
 
 </head>
+<body>
+<div class="table-wrapper">
+
+<table class="templatetable">
+    <tr>
+        {% include 'sidebar.html' %}
+        
+        <td colspan="2"; class="header">
+            TeamCity TeamName
+        </td>
+    </tr>
+
+    <tr>
+        <td class="main-body">
+            <table>
+                <tr>
+                    <th>Player Name</th>
+                    <th>Position</th>
+                    <th>Overall</th>
+                    <th>Shooting</th>
+                    <th>Playmaking</th>
+                    <th>Slashing</th>
+                    <th>Post</th>
+                    <th>Defense</th>
+                    <th>Physical</th>
+                </tr>
+                {% for player in players %}
+                <tr>
+                    <td>{{player.first_name}} {{player.last_name}}</td>
+                    <td>{{player.pos}}</td>
+                    <td>{{player.ovr}}</td>
+                    <td>{{player.shooter}}</td>
+                    <td>{{player.playmaker}}</td>
+                    <td>{{player.slashing}}</td>
+                    <td>{{player.post}}</td>
+                    <td>{{player.defense}}</td>
+                    <td>{{player.defense}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </td>
+    </tr>
+</table>
+</div>
+
+
+
+
+
+
+
+
+</body>
+
 </html>

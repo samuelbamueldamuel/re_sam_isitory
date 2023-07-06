@@ -10,9 +10,8 @@
 
 <table class="templatetable">
     <tr>
-        <td rowspan="2" class="sidebar">
-            sidebar
-        </td>
+        {% include 'sidebar.html' %}
+
         <td colspan="2"; class="header">
             {{team.city}} {{team.name}} Roster
         </td>
@@ -22,21 +21,29 @@
         <td class="main-body">
             <table>
                 <tr>
-                    <th>First Name</td>
-                    <th>Last Name</th>
+                    <th>Player Name</th>
                     <th>Position</th>
                     <th>Overall</th>
+                    <th>Shooting</th>
+                    <th>Playmaking</th>
+                    <th>Slashing</th>
+                    <th>Post</th>
+                    <th>Defense</th>
+                    <th>Physical</th>
                 </tr>
-
                 {% for player in players %}
                 <tr>
-                    <td>{{player.first_name}}</td>
-                    <td>{{player.last_name}}</td>
+                    <td>{{player.first_name}} {{player.last_name}}</td>
                     <td>{{player.pos}}</td>
                     <td>{{player.ovr}}</td>
+                    <td>{{player.shooter}}</td>
+                    <td>{{player.playmaker}}</td>
+                    <td>{{player.slashing}}</td>
+                    <td>{{player.post}}</td>
+                    <td>{{player.defense}}</td>
+                    <td>{{player.defense}}</td>
                 </tr>
                 {% endfor %}
-            </table>
         </td>
     </tr>
 </table>

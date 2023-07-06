@@ -361,6 +361,30 @@ def getOverall(three, mid, standShot, moveShot, passAcc, dribble, dot, drive, du
     ovr = num/24
     return ovr
 
+def shooterF(three, mid, standShot, moveShot):
+    average = (int(three) + int(mid) + int(standShot) + int(moveShot)) / 4
+    return round(average)
+
+def playmakerF(passAcc, dribble, dot):
+    average = (int(passAcc) + int(dribble) + int(dot))/ 3
+    return round(average)
+
+def slashingF(drive, layup, dunk):
+    average = (int(drive) + int(layup) + int(dunk)) / 3
+    return round(average)
+
+def postF(backdown, postMove, closeShot, oBoard, dBoard):
+    average = (int(backdown) + int(postMove) + int(closeShot) + int(oBoard) + int(dBoard)) / 5
+    return round(average)
+
+def defenseF(perDefense, postDefense, intimidation, steal, block, reconition):
+    average = (int(perDefense) + int(postDefense) + int(intimidation) + int(steal) + int(block) + int(reconition)) / 6
+    return round(average)
+
+def physicalF(speed, strength, vertical):
+    average = (int(speed) + int(strength) + int(vertical)) / 3
+    return round(average)
+
 def birth():
     fName = str(get_fname())
     lName = str(get_lname())
@@ -377,15 +401,21 @@ def birth():
     standShot = attribute(shooter)
     moveShot = attribute(shooter)
 
+    shooterA = shooterF(three, mid, standShot, moveShot)
+
     playmaker = scale()
     passAcc = attribute(playmaker)
     dribble = attribute(playmaker)
     dot = attribute(playmaker)
 
+    playmakerA = playmakerF(passAcc, dribble, dot)
+
     slashing = scale()
     drive = attribute(slashing)
     dunk = attribute(slashing)
     layup = attribute(slashing)
+
+    slashingA = slashingF(drive, dunk, layup)
 
     post = scale()
     backdown = attribute(post)
@@ -394,6 +424,8 @@ def birth():
     oBoard = attribute(post)
     dBoard = attribute(post)
 
+    postA = postF(backdown, postMove, closeShot, oBoard, dBoard)
+
     defense = scale()
     perDefense = attribute(defense)
     postDefense = attribute(defense)
@@ -401,11 +433,17 @@ def birth():
     steal = attribute(defense)
     block = attribute(defense)
     reconition = attribute(defense)
+
+    defenseA = defenseF(perDefense, postDefense, intimidation, steal, block, reconition)
     
     physical = scale()
     speed = attribute(physical)
     strength = attribute(physical)
     vertical = attribute(physical)
+
+    physicalA = physicalF(speed, strength, vertical)
+
+    
 
     ovr = getOverall(three, mid, standShot, moveShot, passAcc, dribble, dot, drive, dunk, layup, backdown, postMove, closeShot, oBoard, dBoard, perDefense, postDefense, intimidation, steal, block, reconition, speed, strength, vertical)
 
@@ -413,6 +451,8 @@ def birth():
     # cur = league.cursor()
     # cur.execute(query, (fName, lName, team_id, overall, player_id, pos, height, three, mid, close, dribble, passing, perimeter_defense, post_defense, steal, block))
     # league.commit()
+
+
 
     player = Player(
         first_name=fName,
@@ -451,6 +491,15 @@ def birth():
         speed=speed,
         strength=strength,
         vertical=vertical,
+
+        shooter = shooterA,
+        playmaker = playmakerA,
+        slashing = slashingA,
+        post = postA,
+        defense = defenseA,
+        physical = physicalA,
+
+
         
 
 

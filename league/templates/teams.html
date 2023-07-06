@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tablestyle.css' %}">
+
+</head>
+<body>
+<div class="table-wrapper">
+
+<table class="templatetable">
+    <tr>
+        {% include 'sidebar.html' %}
+        
+        <td colspan="2"; class="header">
+            League Teams
+        </td>
+    </tr>
+
+    <tr>
+        <td class="main-body">
+            <div>
+                <table>
+                    <tr>
+                        <th>
+                            Western Conference
+                        </th>
+                    </tr>
+
+                    <tr>
+                        <th>Team City</th>
+                        <th>Team Name</th>
+                        <th>Team Roster</th>
+                    </tr>
+                    
+                    {% for team in westTeams %}
+                    <tr>
+                        <td>{{team.city}}</td>
+                        <td>{{team.name}}</td>
+                        <td><a href="{% url 'roster' t_id=team.t_id %}">Roster</a></td>
+
+                    </tr>
+                    {% endfor %}
+
+                    
+                </table>
+            </div>
+
+            <div>
+                <table>
+                    <tr>
+                        <th>
+                            Eastern Conference
+                        </th>
+                    </tr>
+
+                    <tr>
+                        <th>Team City</th>
+                        <th>Team Name</th>
+                        <th>Team Roster</th>
+                    </tr>
+                    
+                    {% for team in eastTeams %}
+                    <tr>
+                        <td>{{team.city}}</td>
+                        <td>{{team.name}}</td>
+                        <td><a href="{% url 'roster' t_id=team.t_id %}">Roster</a></td>
+
+                    </tr>
+                    {% endfor %}
+
+                    
+                </table>
+            </div>
+        </td>
+    </tr>
+</table>
+</div>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

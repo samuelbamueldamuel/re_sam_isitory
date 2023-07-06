@@ -17,6 +17,7 @@ urlpatterns = [
     path('testSelTeam/', AdminViews.testSelTeam, name='testSelTeam'),
     path('home/', UserViews.home, name='home'),
     path('teamRoster/', UserViews.teamRoster, name='teamRoster'),
-    
-    
+    path('teams/', UserViews.teams, name='teams'),
+    path('playerPage/<str:id>', UserViews.playerPage, name='playerPage')
+    ,
 ]
