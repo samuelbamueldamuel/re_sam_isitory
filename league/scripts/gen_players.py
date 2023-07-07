@@ -385,6 +385,34 @@ def physicalF(speed, strength, vertical):
     average = (int(speed) + int(strength) + int(vertical)) / 3
     return round(average)
 
+def ageFdig():
+    weights = [5, 1]
+    nums = [2, 3]
+
+    dig = random.choices(nums, weights=weights)
+    return dig
+
+def ageLdig(firstDigit):
+    nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    if(firstDigit == 2):
+        weights = [1, 1, 2, 2, 3 , 3, 2, 1, 1, 1]
+    elif(firstDigit == 3):
+        weights = [5, 4, 3, 2, 1, 0.5, 0.5, 0.5, 0.5, 0.5]
+
+    dig = random.choices(nums, weights=weights)
+    return dig
+
+
+def getAge():
+    firstDigit = str(ageFdig())
+    lastDigit = str(ageLdig(int(firstDigit[1])))
+
+    ageString = firstDigit + lastDigit
+
+    age = firstDigit[1] + lastDigit[1]
+    return int(age)
+
 def birth():
     fName = str(get_fname())
     lName = str(get_lname())
@@ -393,6 +421,8 @@ def birth():
     # lName = "McPlayer"
 
     pos = get_pos()
+
+    age = getAge()
     height = str(get_height(pos))
     weight = weight_func(height)
     shooter = scale()
@@ -459,6 +489,8 @@ def birth():
         last_name=lName,
 
         pos=pos,
+
+        age = age,
         height=height,
         weight=weight,
 

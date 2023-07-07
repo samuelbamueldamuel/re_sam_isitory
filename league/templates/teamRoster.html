@@ -33,7 +33,7 @@
                 </tr>
                 {% for player in players %}
                 <tr>
-                    <td>{{player.first_name}} {{player.last_name}}</td>
+                    <td><a href="{% url 'playerPage' id=player.id %}">{{player.first_name}} {{player.last_name}}</a></td>
                     <td>{{player.pos}}</td>
                     <td>{{player.ovr}}</td>
                     <td>{{player.shooter}}</td>

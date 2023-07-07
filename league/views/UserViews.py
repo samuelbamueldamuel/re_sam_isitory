@@ -46,12 +46,12 @@ def teams(request):
 
     return render(request, 'teams.html', context )
 
-def team(request, id):
+def playerPage(request, id):
     selectedPlayer = Player.objects.filter(id=id).first()
 
     context = {
         'player': selectedPlayer
     }
-    return render(request)
+    return render(request, 'playerPage.html', context)
 
     

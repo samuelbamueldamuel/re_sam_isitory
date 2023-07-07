@@ -15,6 +15,7 @@ class Player(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     
+    age = models.IntegerField(null=True)
     pos = models.CharField(max_length=2)
     height = models.CharField(max_length=10)
     weight = models.IntegerField()
