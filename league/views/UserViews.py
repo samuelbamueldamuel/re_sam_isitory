@@ -54,4 +54,16 @@ def playerPage(request, id):
     }
     return render(request, 'playerPage.html', context)
 
+def salaryBreakdown(request):
+    team = Team.objects.filter(userTeam = True).first()
+    
+    players = Player.objects.filter(team_id = team.t_id)
+    
+    context = {
+        'team': team,
+        'players': players
+    }
+    
+    return render(request, 'salaryBreakdown.html', context)
+
     

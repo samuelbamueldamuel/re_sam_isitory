@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tablestyle.css' %}">
+
+</head>
+<body>
+<div class="table-wrapper">
+
+<table class="templatetable">
+    <tr>
+        {% include 'sidebar.html' %}
+        
+        <td colspan="2"; class="header">
+            TeamCity TeamName
+        </td>
+    </tr>
+
+    <tr>
+        <td class="main-body">
+            <table>
+                <tr> 
+                    <th> First Name </th>
+                    <th> Last Name </th>
+                    <th> Overall </th>
+                    <th> Salary </th>
+                </tr>
+                {% for player in players %}
+                <tr>
+                    <td>{{player.first_name}}</td>
+                    <td>{{player.last_name}}</td>
+                    <td>{{player.ovr}}</td>
+                    <td>{{player.salary}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </td>
+    </tr>
+</table>
+</div>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
