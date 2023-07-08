@@ -5,6 +5,7 @@ from ..scripts.startup_draft import rounds, draft, printTest
 from ..scripts.makeUser import assignUser
 from ..models import Player, Team
 from ..scripts.delete_players import deletePlayers
+from ..scripts.assignSalary import main
 import time
 
 
@@ -129,4 +130,9 @@ def testSelTeam(request):
     else:
         print("shit not broke")
     return render(request, 'home.html')
+
+def assignSalary(request):
+    main()
+    
+    return render(request, 'players.html')
 # Create your views here.

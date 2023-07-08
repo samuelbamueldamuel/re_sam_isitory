@@ -18,6 +18,6 @@ urlpatterns = [
     path('home/', UserViews.home, name='home'),
     path('teamRoster/', UserViews.teamRoster, name='teamRoster'),
     path('teams/', UserViews.teams, name='teams'),
-    path('playerPage/<str:id>', UserViews.playerPage, name='playerPage')
-    ,
+    path('playerPage/<str:id>', UserViews.playerPage, name='playerPage'),
+    path('assignSalary', AdminViews.assignSalary, name='assignSalary'),
 ]

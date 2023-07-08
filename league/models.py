@@ -14,6 +14,8 @@ class Player(models.Model):
     
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+
+
     
     age = models.IntegerField(null=True)
     pos = models.CharField(max_length=2)
@@ -58,6 +60,9 @@ class Player(models.Model):
     defense = models.IntegerField()
 
     physical = models.IntegerField()
+
+    value = models.IntegerField(null=True)
+    salary = models.FloatField(null=True)
 
 
 

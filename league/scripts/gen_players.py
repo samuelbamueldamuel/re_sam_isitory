@@ -356,7 +356,7 @@ def attribute(weights):
     return rating
 
 def getOverall(three, mid, standShot, moveShot, passAcc, dribble, dot, drive, dunk, layup, backdown, postMove, closeShot, oBoard, dBoard, perDefense, postDefense, intimidation, steal, block, reconition, speed, strength, vertical):
-    #TODO num is cocantenating not adding, which means you need to make every arg an int
+    
     num = int(three) + int(mid)+ int(standShot) + int(moveShot) + int(passAcc) + int(dribble) + int(dot) + int(drive) + int(dunk) + int(layup) + int(backdown) + int(postMove) + int(closeShot) + int(oBoard) + int(dBoard) + int(perDefense) + int(postDefense) + int(intimidation) + int(steal) + int(block) + int(reconition) + int(speed) + int(strength) + int(vertical)
     ovr = num/24
     return ovr
@@ -386,7 +386,7 @@ def physicalF(speed, strength, vertical):
     return round(average)
 
 def ageFdig():
-    weights = [5, 1]
+    weights = [5, 3]
     nums = [2, 3]
 
     dig = random.choices(nums, weights=weights)
@@ -396,7 +396,7 @@ def ageLdig(firstDigit):
     nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     if(firstDigit == 2):
-        weights = [1, 1, 2, 2, 3 , 3, 2, 1, 1, 1]
+        weights = [1, 1, 2, 2, 3 , 3, 3, 3, 3, 3]
     elif(firstDigit == 3):
         weights = [5, 4, 3, 2, 1, 0.5, 0.5, 0.5, 0.5, 0.5]
 
@@ -412,6 +412,13 @@ def getAge():
 
     age = firstDigit[1] + lastDigit[1]
     return int(age)
+
+def getValue(ovr, age):
+    valOvr = ovr * 4
+    valAge = age * 2
+
+    val = valOvr - valAge
+    return val
 
 def birth():
     fName = str(get_fname())
@@ -476,7 +483,7 @@ def birth():
     
 
     ovr = getOverall(three, mid, standShot, moveShot, passAcc, dribble, dot, drive, dunk, layup, backdown, postMove, closeShot, oBoard, dBoard, perDefense, postDefense, intimidation, steal, block, reconition, speed, strength, vertical)
-
+    value = getValue(ovr, age)
     # query = "INSERT INTO players (fname, lname, team_id, ovr, player_id, position, height, three, mid, close, dribble, passing, perimeter_defense, post_defense, steal, block) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     # cur = league.cursor()
     # cur.execute(query, (fName, lName, team_id, overall, player_id, pos, height, three, mid, close, dribble, passing, perimeter_defense, post_defense, steal, block))
@@ -530,6 +537,7 @@ def birth():
         post = postA,
         defense = defenseA,
         physical = physicalA,
+        value = value
 
 
         

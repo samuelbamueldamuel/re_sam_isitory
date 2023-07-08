@@ -1,0 +1,14 @@
+avg: 131.0996
+std: 28.339846150605688
+q1: 112.0
+q3: 150.0
+10% percentile: 94.0
+20% percentile: 108.0
+30% percentile: 116.0
+40% percentile: 124.0
+50% percentile: 130.0
+60% percentile: 138.0
+70% percentile: 146.0
+80% percentile: 156.0
+90% percentile: 168.0
+100% percentile: 236.0
