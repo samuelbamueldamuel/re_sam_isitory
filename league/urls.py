@@ -20,5 +20,7 @@ urlpatterns = [
     path('teams/', UserViews.teams, name='teams'),
     path('playerPage/<str:id>', UserViews.playerPage, name='playerPage'),
     path('assignSalary', AdminViews.assignSalary, name='assignSalary'),
-    path('salaryBreakdown/', UserViews.salaryBreakdown, name='salaryBreakdown')
+    path('salaryBreakdown/', UserViews.salaryBreakdown, name='salaryBreakdown'),
+    path('leagueSalary/', UserViews.leagueSalary, name='leagueSalary'),
+    path('testView/', UserViews.testView, name='testView'),
 ]

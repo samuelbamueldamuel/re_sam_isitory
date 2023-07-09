@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tablestyle.css' %}">
+
+</head>
+<body>
+<div class="table-wrapper">
+
+<table class="templatetable">
+    <tr>
+        {% include 'sidebar.html' %}
+        
+        <td colspan="2"; class="header">
+            TeamCity TeamName
+        </td>
+    </tr>
+
+    <tr>
+        <td class="main-body">
+            <table>
+                <tr>
+                    <th>City</th>
+                    <th>Name</th>
+                    <th>Players</th>
+                    <th>Total Salary</th>
+                </tr>
+
+                {% for team in teams %}
+
+                {% with key=team.t_id|add:"Players" %}
+
+                <tr>
+                    <td>{{team.city}}</td>
+                    <td>{{team.name}}</td>
+                    <td>{{context[key]}}</td>
+                    <td></td>
+                </tr>
+                {% endwith %}
+                {% endfor %}
+            </table>
+        </td>
+    </tr>
+</table>
+</div>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

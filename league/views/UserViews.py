@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from ..models import Team, Player
+from ..scripts.stage import stage
 
 def welcome(request):
     teams = Team.objects.all()
@@ -17,8 +18,11 @@ def home(request):
     team = Team.objects.filter(userTeam = 1).first()
     print(team.t_id)
     
+    leagueStage = stage
+    
     context = {
-        "team": team
+        "team": team,
+        "stage": stage,
     }
 
     return render(request, 'home.html', context)
@@ -59,11 +63,50 @@ def salaryBreakdown(request):
     
     players = Player.objects.filter(team_id = team.t_id)
     
+    totalSalary = 0
+    for player in players:
+        totalSalary = totalSalary + player.salary
+        
+    
     context = {
         'team': team,
-        'players': players
+        'players': players,
+        'totalSalary': totalSalary,
     }
     
     return render(request, 'salaryBreakdown.html', context)
 
+def leagueSalary(request):
+    
+    teams = Team.objects.all()
+    context = {
+        'teams': teams
+    }
+    firstTeam = teams[3]
+    print(firstTeam.name)
+    
+    for team in teams:
+        players = Player.objects.filter(team_id = team.t_id)
+        teamSalary = 0
+        for player in players:
+            teamSalary = teamSalary + player.salary
+
+        key = team.t_id + 'Salary'  
+        context[key] = teamSalary    
+        
+        count = Player.objects.filter(team_id = team.t_id).count()
+        playerKey = team.t_id + 'Players'
+        
+        
+        context[playerKey] = count
+    print(context['LASPlayers'])
+        
+    
+    return render(request, 'leagueSalary.html', context)
+
+def testView(request):
+    context = {
+        'key': 'value'
+    }
+    return render(request, 'test.html', context)
     
