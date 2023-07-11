@@ -109,4 +109,21 @@ def testView(request):
         'key': 'value'
     }
     return render(request, 'test.html', context)
+
+def salaryBreakdownL(request, t_id):
+    team = Team.objects.filter(t_id = t_id).first()
     
+    players = Player.objects.filter(team_id = team.t_id)
+    
+    totalSalary = 0
+    for player in players:
+        totalSalary = totalSalary + player.salary
+        
+    
+    context = {
+        'team': team,
+        'players': players,
+        'totalSalary': totalSalary,
+    }
+    
+    return render(request, 'salaryBreakdown.html', context)

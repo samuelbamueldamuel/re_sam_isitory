@@ -23,4 +23,5 @@ urlpatterns = [
     path('salaryBreakdown/', UserViews.salaryBreakdown, name='salaryBreakdown'),
     path('leagueSalary/', UserViews.leagueSalary, name='leagueSalary'),
     path('testView/', UserViews.testView, name='testView'),
+    path('salaryBreakdownL/<str:t_id>', UserViews.salaryBreakdownL, name='salaryBreakdownL')
 ]
