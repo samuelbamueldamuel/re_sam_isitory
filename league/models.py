@@ -5,6 +5,7 @@ class Team(models.Model):
     name = models.CharField(max_length=30)
     t_id = models.CharField(max_length=5, primary_key=True)
     conference = models.CharField(max_length=4, null=True)
+    division = models.CharField(max_length=10, null=True)
     userTeam = models.BooleanField(default=False)
 
 

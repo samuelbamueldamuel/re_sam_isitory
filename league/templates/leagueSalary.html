@@ -28,16 +28,16 @@
                 </tr>
 
                 {% for team in teams %}
-
-                {% with key=team.t_id|add:"Players" %}
+                {% load playersCount salaryCount %}
+                
 
                 <tr>
                     <td>{{team.city}}</td>
-                    <td>{{team.name}}</td>
-                    <td>{{context[key]}}</td>
-                    <td></td>
+                    <td><a href="{% url 'salaryBreakdownL' t_id=team.t_id %}">{{team.name}}</a></td>
+                    <td>{% playersCount team.t_id %}</td>
+                    <td>{% salaryCount team.t_id %}</td>
                 </tr>
-                {% endwith %}
+
                 {% endfor %}
             </table>
         </td>
