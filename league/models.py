@@ -72,6 +72,13 @@ class FName(models.Model):
 
 class LName(models.Model):
     lastName = models.CharField(max_length=55)
+    
+class Game(models.Model):
+    homeTeam = models.ForeignKey(Team, related_name='home_games', null=True, on_delete=models.CASCADE)
+    awayTeam = models.ForeignKey(Team, related_name='away_games', null=True, on_delete=models.CASCADE)
+
+    
+    week = models.IntegerField()
 
 
 # Create your models here.
