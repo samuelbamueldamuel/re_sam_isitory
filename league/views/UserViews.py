@@ -109,4 +109,9 @@ def testView(request):
         'key': 'value'
     }
     return render(request, 'test.html', context)
-    
+
+def trade(request, t_id):
+    context = {
+        'key': 'value'
+    }
+    return render(request, 'tradeMachine.html', context)
