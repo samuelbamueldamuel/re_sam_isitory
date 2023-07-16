@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+</head>
+<body>
+    <table>
+        <tr>
+            <th>User Players</th>
+        </tr>
+        {% for player in userPlayers %}
+        <tr>
+            <td>
+                <input type="checkbox" name="user_player_checkbox" value="{{player.id}}">
+                {{player.first_name}} {{player.last_name}}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <table>
+        <tr>
+            <th>Selected Players</th>
+        </tr>
+        {% for player in selectedPlayers %}
+        <tr>
+            <td>
+                <input type="checkbox" name="selected_player_checkbox" value="{{player.id}}">
+                {{player.first_name}} {{player.last_name}}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <button onclick="handleTrade()">add players to trade arrays</button>
+    <button onclick="doTrade()">Do Trade</button>
+
+    <script>
+        var checkedUserPlayers = [];
+        var checkedSelectedPlayers = [];
+
+        function handleTrade() {
+            checkedUserPlayers = getCheckedPlayerIds('user_player_checkbox');
+            checkedSelectedPlayers = getCheckedPlayerIds('selected_player_checkbox');
+
+            console.log(checkedUserPlayers);
+            console.log(checkedSelectedPlayers);
+        }
+
+        function getCheckedPlayerIds(checkboxName) {
+            var checkedPlayerIds = [];
+            var checkboxes = document.getElementsByName(checkboxName);
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    checkedPlayerIds.push(checkboxes[i].value);
+                }
+            }
+            return checkedPlayerIds;
+        }
+
+        function doTrade() {
+            var temp = checkedUserPlayers;
+            checkedUserPlayers = checkedSelectedPlayers;
+            checkedSelectedPlayers = temp;
+
+            console.log(checkedUserPlayers);
+            console.log(checkedSelectedPlayers);
+        }
+    </script>
+</body>
+</html>

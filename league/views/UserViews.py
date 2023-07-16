@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from ..models import Team, Player
 from ..scripts.stage import stage
+from django.shortcuts import redirect
 
 def welcome(request):
     teams = Team.objects.all()
@@ -127,3 +128,69 @@ def salaryBreakdownL(request, t_id):
     }
     
     return render(request, 'salaryBreakdown.html', context)
+
+def trade(request):
+    teams = Team.objects.all()
+    context = {
+        'teams': teams
+    }
+    return render(request, 'trade.html', context)
+
+def tradeMachine(request, t_id):
+    # get user team 
+    userTeam = Team.objects.filter(userTeam=True).first()
+    userPlayers = Player.objects.filter(team_id=userTeam.t_id)
+
+    # get selectedTeam  
+    selectedTeam = Team.objects.filter(t_id=t_id).first()
+    selectedPlayers = Player.objects.filter(team_id=selectedTeam.t_id)
+    context = {
+        'userTeam': userTeam,
+        'userPlayers' : userPlayers,
+        'selectedTeam': selectedTeam,
+        'selectedPlayers' : selectedPlayers,
+        't_id': t_id,  # Add the t_id value to the context
+    }
+    print(context)
+    return render(request, 'tradeMachine.html', context)
+
+
+
+
+def doTrade(request, t_id):
+    if request.method == 'POST':
+        user_player_ids = request.POST.getlist('user_players')
+        selected_player_ids = request.POST.getlist('selected_players')
+        
+        try:
+            # Fetch user team and selected team
+            user_team = Team.objects.get(userTeam=True)
+            selected_team = Team.objects.get(t_id=t_id)
+            
+            # Fetch the players based on the selected IDs
+            user_players = Player.objects.filter(id__in=user_player_ids, team=user_team)
+            selected_players = Player.objects.filter(id__in=selected_player_ids, team=selected_team)
+            
+            # Perform the trade logic
+            # Example: Swap the teams of the selected players
+            for player in user_players:
+                player.team = selected_team
+                player.save()
+            
+            for player in selected_players:
+                player.team = user_team
+                player.save()
+            
+            return redirect('trade-success')
+        
+        except (Team.DoesNotExist, Player.DoesNotExist):
+            # Handle the case if teams or players are not found
+            return redirect('trade-failure')
+    
+    return redirect('trade-failure')
+
+def tradeSuccess(request):
+    return render(request, 'trade_success.html')
+
+def tradeFailure(request):
+    return render(request, 'trade_failure.html')

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<body>
+<div>WHO YOU TRYNA TRADE WITH</div>
+<div>select a team</div>
+<table>
+<tr>
+    <th>City</th>
+    <th>Name</th>
+    <th>Select</th>
+</tr>
+{% for team in teams %}
+<tr>
+    <td>{{team.city}}</td>
+    <td>{{team.name}}</td>
+    <td>
+        <a href="{% url 'selectTrade' t_id=team.t_id %}">
+            trade with this team
+        </a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</head>
+</html>
