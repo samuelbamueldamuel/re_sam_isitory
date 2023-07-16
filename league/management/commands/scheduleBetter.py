@@ -109,9 +109,41 @@ class Command(BaseCommand):
         homeTeams = games.values_list('homeTeam', flat=True).distinct()
         awayTeams = games.values_list('awayTeam', flat=True).distinct()
         
+        combined = homeTeams.union(awayTeams)
+        combinedList = [] 
+        for team in combined:
+            combinedList.append(team)
+        print(team)
+        print(combinedList)
+        print("above is from comb fucntion")
+        try:
+            combinedList.remove(team)
+        except ValueError:
+            pass
+
+        return combinedList
         
     def checkConfGames(self, team):
         confTeams = self.getConfTeams(team)
+        confList = []
+        for teams in confTeams:
+            confList.append(teams)
+        teamsPlayed = self.getGames(team)
+        print(teamsPlayed)
+        print(team)
+        for teams in teamsPlayed:
+            try:
+                   
+                confList.remove(teams)
+                print("removed: " + str(teams)) 
+                
+            except ValueError:
+                print("fuckin dumbass")
+                print(teamsPlayed)
+                print(confList)
+                sys.exit()
+        
+        return confList
         
         
 

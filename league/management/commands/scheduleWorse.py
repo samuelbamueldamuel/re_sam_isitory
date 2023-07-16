@@ -266,4 +266,3 @@ class Command(BaseCommand):
         #     divOppenents = self.getDivOppenents(teams[0])
         #     for divTeam in divOppenents:
         #         self.scheduleDivOppenent(teams[0], divTeam, numberedGamesList)
-            
