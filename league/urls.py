@@ -26,7 +26,7 @@ urlpatterns = [
     path('salaryBreakdownL/<str:t_id>', UserViews.salaryBreakdownL, name='salaryBreakdownL'),
     path('trade/', UserViews.trade, name='trade'),
     path('selectTrade/<str:t_id>', UserViews.tradeMachine, name = 'selectTrade'),
-    path('doTrade/<str:t_id>', UserViews.doTrade, name = 'doTrade'),
-    path('trade-success/', UserViews.tradeSuccess, name='trade-success'),
-    path('trade-failure/', UserViews.tradeFailure, name='trade-failure'),
+    # path('doTrade/<str:t_id>', UserViews.doTrade, name = 'doTrade'),
+    # path('trade-success/', UserViews.tradeSuccess, name='trade-success'),
+    # path('trade-failure/', UserViews.tradeFailure, name='trade-failure'),
 ]

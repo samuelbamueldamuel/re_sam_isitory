@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     {% load static %}
@@ -34,10 +34,13 @@
 
     <button onclick="handleTrade()">add players to trade arrays</button>
     <button onclick="doTrade()">Do Trade</button>
+    <button onclick="printPlayers()">print players</button>
+
 
     <script>
         var checkedUserPlayers = [];
         var checkedSelectedPlayers = [];
+
 
         function handleTrade() {
             checkedUserPlayers = getCheckedPlayerIds('user_player_checkbox');
@@ -66,6 +69,120 @@
             console.log(checkedUserPlayers);
             console.log(checkedSelectedPlayers);
         }
+        function printPlayers() {
+            console.log(checkedUserPlayers);
+            console.log(checkedSelectedPlayers);
+        }
+
+        
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+</head>
+<body>
+    <table>
+        <tr>
+            <th>User Players</th>
+        </tr>
+        {% for player in userPlayers %}
+        <tr>
+            <td>
+                <input type="checkbox" name="user_player_checkbox" value="{{player.id}}" data-team-id="{{player.team_id}}">
+                {{player.first_name}} {{player.last_name}}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <table>
+        <tr>
+            <th>Selected Players</th>
+        </tr>
+        {% for player in selectedPlayers %}
+        <tr>
+            <td>
+                <input type="checkbox" name="selected_player_checkbox" value="{{player.id}}" data-team-id="{{player.team_id}}">
+                {{player.first_name}} {{player.last_name}}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <button onclick="handleTrade()">Add players to trade arrays</button>
+    <button onclick="doTrade()">Do Trade</button>
+    <button onclick="printTeamIds()">Print team IDs</button>
+
+
+    <script>
+        function getCSRFToken() {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Check if the cookie name is the CSRF token cookie name
+                if (cookie.substring(0, 10) === 'csrftoken=') {
+                    cookieValue = decodeURIComponent(cookie.substring(10));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+        var checkedUserPlayers = [];
+        var checkedSelectedPlayers = [];
+
+
+        function handleTrade() {
+            checkedUserPlayers = getCheckedPlayerIds('user_player_checkbox');
+            checkedSelectedPlayers = getCheckedPlayerIds('selected_player_checkbox');
+
+            console.log(checkedUserPlayers);
+            console.log(checkedSelectedPlayers);
+        }
+
+        function getCheckedPlayerIds(checkboxName) {
+            var checkedPlayerIds = [];
+            var checkboxes = document.getElementsByName(checkboxName);
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    var playerId = checkboxes[i].value;
+                    var teamId = checkboxes[i].getAttribute('data-team-id');
+                    checkedPlayerIds.push({ playerId: playerId, teamId: teamId });
+                }
+            }
+            return checkedPlayerIds;
+        }
+
+        function doTrade() {
+            for (var i = 0; i < checkedUserPlayers.length; i++) {
+                var tempTeamId = checkedUserPlayers[i].teamId;
+                checkedUserPlayers[i].teamId = checkedSelectedPlayers[i].teamId;
+                checkedSelectedPlayers[i].teamId = tempTeamId;
+            }
+
+            console.log(checkedUserPlayers);
+            console.log(checkedSelectedPlayers);
+        }
+        function printTeamIds() {
+            console.log("User Team IDs:");
+            for (var i = 0; i < checkedUserPlayers.length; i++) {
+                console.log("Player ID:", checkedUserPlayers[i].playerId);
+                console.log("Team ID:", checkedUserPlayers[i].teamId);
+            }
+
+            console.log("Selected Team IDs:");
+            for (var i = 0; i < checkedSelectedPlayers.length; i++) {
+                console.log("Player ID:", checkedSelectedPlayers[i].playerId);
+                console.log("Team ID:", checkedSelectedPlayers[i].teamId);
+            }
+        }
+    
+        
     </script>
 </body>
 </html>
