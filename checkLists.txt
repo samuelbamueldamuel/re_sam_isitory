@@ -1,0 +1,4 @@
+fourList:  [<Team: Team object (OSA)>, <Team: Team object (VAT)>, <Team: Team object (CAI)>, <Team: Team object (DUB)>]
+newFourList:  [<Team: Team object (OSA)>, <Team: Team object (VAT)>, <Team: Team object (CAI)>, <Team: Team object (DUB)>]
+sixList:  [<Team: Team object (PRA)>, <Team: Team object (GAU)>, <Team: Team object (SEA)>, <Team: Team object (NOR)>]
+newSixList:  [<Team: Team object (PRA)>, <Team: Team object (GAU)>, <Team: Team object (SEA)>, <Team: Team object (NOR)>]

@@ -23,16 +23,6 @@ class Command(BaseCommand):
             
             list.remove(game.week)
 
-            # except ValueError:
-            #     print(list)
-            #     print(game.week)
-            #     z = 0
-            #     for x in list:
-            #         if(list[z] == game.week):
-            #             print("match found")
-            #     # for x in playedGames:
-            #     #     print(x.week)
-            #     sys.exit()
         
         return list
     
@@ -55,7 +45,7 @@ class Command(BaseCommand):
     
     def scheduleDivOppenent(self, mainTeam, OppTeam, mainList, oppList):
         
-        # print("mainTeam: " + mainTeam + "division: " + mainTeam.division)
+        
         for x in range(4):
             gameSelectedNum = random.choice(mainList)
             while gameSelectedNum not in oppList:
@@ -113,9 +103,7 @@ class Command(BaseCommand):
         combinedList = [] 
         for team in combined:
             combinedList.append(team)
-        print(team)
-        print(combinedList)
-        print("above is from comb fucntion")
+
         try:
             combinedList.remove(team)
         except ValueError:
@@ -127,20 +115,24 @@ class Command(BaseCommand):
         confTeams = self.getConfTeams(team)
         confList = []
         for teams in confTeams:
-            confList.append(teams)
+            confList.append(teams.t_id)
         teamsPlayed = self.getGames(team)
-        print(teamsPlayed)
-        print(team)
+        if(team.t_id in teamsPlayed):
+            teamsPlayed.remove(team.t_id)
+        else:
+            print("no sir")
         for teams in teamsPlayed:
             try:
                    
                 confList.remove(teams)
-                print("removed: " + str(teams)) 
+                
                 
             except ValueError:
-                print("fuckin dumbass")
-                print(teamsPlayed)
+                print("shit fucked up")
                 print(confList)
+                print(teams)
+                print(team)
+
                 sys.exit()
         
         return confList
@@ -151,34 +143,51 @@ class Command(BaseCommand):
         
     
     def confOppenents(self, team):
-
+        
         teams = self.checkConfGames(team)
+        
+        
         
         teamList = []
         for team in teams:
             teamList.append(team)
+        print("team: ", team)
+        print("teams: ", teamList)
         sixList = []   
         for x in range(6):
-            ranSixTeam = random.choice(teamList)
-            sixList.append(ranSixTeam)
-            teamList.remove(ranSixTeam)
+            try:
+                ranSixTeam = random.choice(teamList)
+                sixList.append(ranSixTeam)
+                teamList.remove(ranSixTeam)
+                print("sixList: ", sixList)
+            except IndexError:
+                pass
         fourList = []
+        
         for z in range(4):
-            ranFourTeam = random.choice(teamList)
-            fourList.append(ranFourTeam)
-            teamList.remove(ranFourTeam)
+            print("teamsList: ", teamList)
+            try:
+                ranFourTeam = random.choice(teamList)
+                print("fourList: ", fourList)
+                fourList.append(ranFourTeam)
+                teamList.remove(ranFourTeam)
+            except IndexError:
+                pass
             
         return sixList, fourList
     
     def schedSix(self, mainTeam, oppTeam):
+
+        oppTeam = Team.objects.filter(t_id=oppTeam).first()
+        
         mainSched = self.numberedGames(mainTeam)   
         oppSched = self.numberedGames(oppTeam)
-        print("main len: " + str(len(mainSched)))
-        print("opp len: " + str(len(oppSched)))
+
         
         x = 0
         for x in range(4):
             gameSelectedNum = random.choice(mainSched)
+
             while gameSelectedNum not in oppSched:
                     gameSelectedNum = random.choice(mainSched)             
             oppSched.remove(gameSelectedNum)
@@ -187,25 +196,34 @@ class Command(BaseCommand):
             homeOrAway = random.randint(1, 2)
                 
             if(homeOrAway == 1):
+                
                 newGame = Game(homeTeam=mainTeam, awayTeam=oppTeam, week=gameSelectedNum)
-                print("Home: " + newGame.homeTeam.name + "Away: " + newGame.awayTeam.name)
+                
                 newGame.save()
                 x += 1
             else:
+                
                 newGame = Game(homeTeam=oppTeam, awayTeam=mainTeam, week=gameSelectedNum)
-                print("Home: " + newGame.homeTeam.name + "Away: " + newGame.awayTeam.name)
+                
                 newGame.save()
                 x += 1
         # print("games gend(should be 4): " + str(x) )    
     def schedFour(self, mainTeam, oppTeam):
-        mainSched = self.numberedGames(mainTeam)   
-        oppSched = self.numberedGames(oppTeam)
+
+        oppTeam = Team.objects.filter(t_id=oppTeam).first()
         
         mainSched = self.numberedGames(mainTeam)   
         oppSched = self.numberedGames(oppTeam)
+        # print(oppSchedStrings)
+        # oppSched = []
+        # for opp in oppSchedStrings:
+        #     team = Team.objects.filter(t_id=opp).first()
+        #     oppSched.append(team)
+   
         x = 0
         for x in range(3):
             gameSelectedNum = random.choice(mainSched)
+            
             while gameSelectedNum not in oppSched:
                     gameSelectedNum = random.choice(mainSched)             
             oppSched.remove(gameSelectedNum)
@@ -215,12 +233,12 @@ class Command(BaseCommand):
                 
             if(homeOrAway == 1):
                 newGame = Game(homeTeam=mainTeam, awayTeam=oppTeam, week=gameSelectedNum)
-                print("Home: " + newGame.homeTeam.name + "Away: " + newGame.awayTeam.name)
+                
                 newGame.save()
                 x += 1
             else:
                 newGame = Game(homeTeam=oppTeam, awayTeam=mainTeam, week=gameSelectedNum)
-                print("Home: " + newGame.homeTeam.name + "Away: " + newGame.awayTeam.name)
+                
                 newGame.save()
                 x += 1
         # print("games gend(should be 3)" + str(x))
@@ -231,8 +249,8 @@ class Command(BaseCommand):
     
     def genConfGames(self, team):
         sixList, fourList = self.confOppenents(team)
-        print(sixList)
-        print(fourList)
+        # print(sixList)
+        # print(fourList)
         
         for oppTeam in sixList:
             self.schedSix(team, oppTeam)
