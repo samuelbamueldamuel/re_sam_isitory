@@ -10,7 +10,14 @@
         <!-- User Players Table -->
         <table>
             <tr>
-                <th>User Players</th>
+                {% include 'sidebar.html' %}
+                
+                <td colspan="2"; class="header">
+                    {{team.city}} {{team.name}}                                             Stage: {{stage}}
+                </td>
+            </tr>
+            <tr>
+                <th>Your Team</th>
             </tr>
             {% for player in userPlayers %}
             <tr>
@@ -25,7 +32,7 @@
         <!-- Selected Players Table -->
         <table>
             <tr>
-                <th>Selected Players</th>
+                <th>Other Team</th>
             </tr>
             {% for player in selectedPlayers %}
             <tr>
@@ -37,42 +44,10 @@
             {% endfor %}
         </table>
     
-        <button type="submit">Add players to trade arrays</button>
+        <button type="submit">TRADE!</button>
     </form>
     
-    <form id="do-trade-form" action="{% url 'doTrade' t_id %}" method="post">
-        {% csrf_token %}
-        <!-- Include any other form inputs or elements here -->
-        <button type="submit">Do Trade</button>
-    </form>
-    
-    <!-- User Players Array Table -->
-    <table>
-        <tr>
-            <th>User Players Array</th>
-        </tr>
-        <tr>
-            <td>
-                {% for player in user_players_list %}
-                    {{ player.first_name }} {{ player.last_name }}
-                {% endfor %}
-            </td>
-        </tr>
-    </table>
-    
-    <!-- Selected Players Array Table -->
-    <table>
-        <tr>
-            <th>Selected Players Array</th>
-        </tr>
-        <tr>
-            <td>
-                {% for player in selected_players_list %}
-                    {{ player.first_name }} {{ player.last_name }}
-                {% endfor %}
-            </td>
-        </tr>
-    </table>
+   
 
 </body>
 </html>
