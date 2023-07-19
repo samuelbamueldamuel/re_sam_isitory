@@ -202,8 +202,8 @@ def addArray(request, t_id):
     selectedTeam = Team.objects.filter(t_id=t_id).first()
     selectedPlayers = Player.objects.filter(team_id=selectedTeam.t_id).values()
 
-    # print("user_players_list:", user_players_list)
-    # print("selected_players_list:", selected_players_list)
+    print("user_players_list:", user_players_list)
+    print("selected_players_list:", selected_players_list)
 
     context = {
         'user_players_list': user_players_list,
@@ -215,40 +215,49 @@ def addArray(request, t_id):
 
     return render(request, 'tradeMachine.html', context)
 
-# def doTrade(request, t_id):
-#     user_players_list = []
-#     selected_players_list = []
+def doTrade(request, t_id):
+    print("DOING TRADE.........")
+    user_players_list = []
+    selected_players_list =  []
 
-#     if request.method == 'POST':
-#         user_player_ids = request.POST.getlist('user_player_checkbox')
-#         selected_player_ids = request.POST.getlist('selected_player_checkbox')
+    if request.method == 'POST':
+        print("Request method is POST")
+        user_player_ids = request.POST.getlist('user_player_checkbox')
+        selected_player_ids = request.POST.getlist('selected_player_checkbox')
+        print("User Player IDs:", user_player_ids)
+        print("Selected Player IDs:", selected_player_ids)
 
-#         user_players = Player.objects.filter(id__in=user_player_ids)
-#         selected_players = Player.objects.filter(id__in=selected_player_ids)
+        # Check Player and Team models
+        user_players = Player.objects.filter(id__in=user_player_ids)
+        selected_players = Player.objects.filter(id__in=selected_player_ids)
+        print("User Players:", user_players)
+        print("Selected Players:", selected_players)
 
-#         user_players_list = list(user_players)
-#         selected_players_list = list(selected_players)
+        user_players_list = list(user_players)
+        selected_players_list = list(selected_players)
 
-#         # Update team IDs for user players
-#         userTeam = Team.objects.filter(userTeam=True).first()
-#         for player in user_players:
-#             player.team_id = t_id
-#             player.save()
+        # Update team IDs for user players
+        userTeam = Team.objects.filter(userTeam=True).first()
+        for player in user_players:
+            player.team_id = t_id
+            player.save()
 
-#         # Update team IDs for selected players
-#         for player in selected_players:
-#             player.team_id = userTeam.t_id
-#             player.save()
+        # Update team IDs for selected players
+        for player in selected_players:
+            player.team_id = userTeam.t_id
+            player.save()
 
-#         # Redirect to a success page or perform any other desired actions
+        print("User Players List:", user_players_list)
+        print("Selected Players List:", selected_players_list)
 
-#     context = {
-#         'userPlayers': user_players_list,
-#         'selectedPlayers': selected_players_list,
-#         't_id': t_id,
-#     }
+    context = {
+        'userPlayers': user_players_list,
+        'selectedPlayers': selected_players_list,
+        't_id': t_id,
+    }
 
-#     return render(request, 'tradeMachine.html', context)
+    return render(request, 'tradeMachine.html', context)
+
 
 
 
