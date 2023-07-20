@@ -90,8 +90,9 @@ class Command(BaseCommand):
         fourList = []
         sixList = [] 
         for opp in playedTeams:
-            #todo: fix this shit below, needs to be a count of games not of teams idiot
-            gamesCount = Team.objects.filter(Q(conference=opp.conference) & ~Q(division=team.division) & ~Q(t_id=team.t_id)).count()
+            
+            gamesCount = Game.objects.filter((Q(awayTeam=team) & Q(homeTeam=opp)) | (Q(awayTeam=opp) & Q(homeTeam=team))).count()
+            
             
             if(gamesCount == 3):
                 fourList.append(team)
@@ -116,13 +117,32 @@ class Command(BaseCommand):
         sixNeed = 6 - len(sixList)
 
         for x in range(fourNeed):
-            teamSel = random.choice(confTeams)
-            confTeams.remove(teamSel)
-            fourList.append(teamSel)
+            try:
+                teamSel = random.choice(confTeams)
+                confTeams.remove(teamSel)
+                fourList.append(teamSel)
+            except IndexError:
+                print("index error")
+                print(team)
+                gamesCount = Game.objects.filter(Q(awayTeam=team) | Q(homeTeam=team)).count()
+                print(gamesCount)
+                print("four: ", fourList)
+                print("six: ", sixList)
+                sys.exit()
+                
         for x in range(sixNeed):
-            teamSel = random.choice(confTeams)
-            confTeams.remove(teamSel)
-            sixList.append(teamSel)
+            try:
+                teamSel = random.choice(confTeams)
+                confTeams.remove(teamSel)
+                sixList.append(teamSel)
+            except IndexError:
+                print("index error")
+                print(team)
+                gamesCount = Game.objects.filter(Q(awayTeam=team) | Q(homeTeam=team)).count()
+                print(gamesCount)
+                print("four: ", fourNeed, "   ", fourList)
+                print("six: ", sixList)
+                sys.exit()
             
         for opp in playedFour:
             fourList.remove(opp)
@@ -187,6 +207,7 @@ class Command(BaseCommand):
                 
     def schedConf(self, team):
         confTeams = Team.objects.filter(Q(conference=team.conference) & ~Q(division=team.division) & ~Q(t_id=team.t_id)) 
+        print("Team: ", team, " confTeams: ", confTeams)
         confTeams = list(confTeams) #list of objects
         playedTeams = self.playedTeams(team)
         
