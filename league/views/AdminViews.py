@@ -135,4 +135,19 @@ def assignSalary(request):
     main()
     
     return render(request, 'players.html')
+
+def playersFA(request):
+    mydata = Player.objects.filter(team_id='FAA').order_by('-ovr').values()
+    context = {
+        'table': mydata,
+    }
+    return render(request, 'playersFA.html', context)
+
+def playersFApage(request, id):
+    selectedPlayer = Player.objects.filter(id=id).first()
+
+    context = {
+        'player': selectedPlayer
+    }
+    return render(request, 'playersFApage.html', context)
 # Create your views here.

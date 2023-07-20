@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Team</th>
+                <th>Position</th>
+                <th>Height</th>
+                <th>Weight</th>
+                <th>Overall</th>
+                <th>Three-Point</th>
+                <th>Mid-Range</th>
+                <th>Stand Shot</th>
+                <th>Move Shot</th>
+                <th>Pass Accuracy</th>
+                <th>Dribble</th>
+                <th>Dot</th>
+                <th>Drive</th>
+                <th>Dunk</th>
+                <th>Layup</th>
+                <th>Backdown</th>
+                <th>Post Move</th>
+                <th>Close Shot</th>
+                <th>Offensive Board</th>
+                <th>Defenseive Board</th>
+                <th>Post Defense</th>
+                <th>Intimidation</th>
+                <th>Steal</th>
+                <th>Block</th>
+                <th>Reconition</th>
+                <th>Speed</th>
+                <th>Strength</th>
+                <th>Vertical</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in table %}
+
+            <tr>
+                <td>
+                    <a href="{% url 'playersFApage' id=item.id %}">
+                        <button type="button" class="btn btn-sm btn-primary">BUY</button>
+                    </a>
+                </td>                
+                <td>{{ item.first_name }}</td>
+                <td>{{ item.last_name }}</td>
+                <td>{{item.team_id}}</td>
+                <td>{{ item.pos }}</td>
+                <td>{{ item.height }}</td>
+                <td>{{item.weight}}</td>
+                <td>{{ item.ovr }}</td>
+                <td>{{item.three}}</td>
+                <td>{{item.mid}}</td>
+                <td>{{item.standShot}}</td>
+                <td>{{item.moveShot}}</td>
+                <td>{{item.passAcc}}</td>
+                <td>{{item.dribble}}</td>
+                <td>{{item.dot}}</td>
+                <td>{{item.drive}}</td>
+                <td>{{item.dunk}}</td>
+                <td>{{item.layup}}</td>
+                <td>{{item.backdown}}</td>
+                <td>{{item.postMove}}</td>
+                <td>{{item.closeShot}}</td>
+                <td>{{item.oBoard}}</td>
+                <td>{{item.perDefense}}</td>
+                <td>{{item.postDefense}}</td>
+                <td>{{item.intimidation}}</td>
+                <td>{{item.steal}}</td>
+                <td>{{item.block}}</td>
+                <td>{{item.reconition}}</td>
+                <td>{{item.speed}}</td>
+                <td>{{item.strength}}</td>
+                <td>{{item.vertical}}</td>
+                
+
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+  
+</body>
+
+</html>

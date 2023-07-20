@@ -29,6 +29,8 @@ urlpatterns = [
     path('addArray/<str:t_id>', UserViews.addArray, name = 'addArray'),
     path('addArray/', UserViews.addArray, name='addArray'),
     path('goToTrade/', UserViews.goToTrade, name='goToTrade'),
+    path('playersFA/', AdminViews.playersFA, name='playersFA'),
+    path('playersFApage/<str:id>', AdminViews.playersFApage, name='playersFApage'),
 
 
 ]

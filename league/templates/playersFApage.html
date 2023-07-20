@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tablestyle.css' %}">
+
+</head>
+<body>
+<div class="table-wrapper">
+
+<table class="templatetable">
+    <tr>
+        {% include 'sidebar.html' %}
+        
+        <td colspan="2"; class="header">
+            {{player.first_name}} {{player.last_name}}                          Overall: {{player.ovr}}
+        </td>
+    </tr>
+
+    <tr>
+        <td class="main-body" style="width: 30%;">
+            <table>
+                <tr><th>Shooter</th></tr>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Rating</th>
+                </tr>
+                <tr>
+                    <td>Overall</td>
+                    <td>{{player.shooter}}</td>
+                </tr>
+
+                <tr>
+                    <td>Three</td>
+                    <td>{{player.three}}</td>
+                </tr>
+                <tr>
+                    <td>Mid-Range</td>
+                    <td>{{player.mid}}</td>
+                </tr>
+
+                <tr>
+                    <td>Standing Shot</td>
+                    <td>{{player.standShot}}</td>
+                </tr>
+
+                <tr>
+                    <td>Moving Shot</td>
+                    <td>{{player.moveShot}}</td>
+                </tr>
+            </table>
+
+            <table>
+                <tr><th>Playmaker</th></tr>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Rating</th>
+                </tr>
+
+                <tr>
+                    <td>Overall</td>
+                    <td>{{player.playmaker}}</td>
+                </tr>
+
+                <tr>
+                    <td>Pass Accuracy</td>
+                    <td>{{player.passAcc}}</td>
+                </tr>
+                <tr>
+                    <td>Dribbling</td>
+                    <td>{{player.dribble}}</td>
+                </tr>
+
+                <tr>
+                    <td>Dot</td>
+                    <td>{{player.dot}}</td>
+                </tr>
+
+
+            </table>
+
+            <table>
+                <tr><th>Slashing</th></tr>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Rating</th>
+                </tr>
+
+                <tr>
+                    <td>Overall</td>
+                    <td>{{player.slashing}}</td>
+                </tr>
+
+                <tr>
+                    <td>Driving</td>
+                    <td>{{player.drive}}</td>
+                </tr>
+                <tr>
+                    <td>Dunk</td>
+                    <td>{{player.dunk}}</td>
+                </tr>
+
+                <tr>
+                    <td>Layup</td>
+                    <td>{{player.layup}}</td>
+                </tr>
+
+            </table>
+
+            <table>
+                <tr><th>Post</th></tr>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Rating</th>
+                </tr>
+                <tr>
+                    <td>Overall</td>
+                    <td>{{player.post}}</td>
+                </tr>
+
+                <tr>
+                    <td>Backdown</td>
+                    <td>{{player.backdown}}</td>
+                </tr>
+                <tr>
+                    <td>Post-Move</td>
+                    <td>{{player.postMove}}</td>
+                </tr>
+
+                <tr>
+                    <td>Close Shot</td>
+                    <td>{{player.closeShot}}</td>
+                </tr>
+
+                <tr>
+                    <td>Offensive Rebound</td>
+                    <td>{{player.oBoard}}</td>
+                </tr>
+
+                <tr>
+                    <td>Defensive Rebound</td>
+                    <td>{{player.dBoard}}</td>
+                </tr>
+            </table>
+
+            <table>
+                <tr><th>Physical</th></tr>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Rating</th>
+                </tr>
+                <tr>
+                    <td>Overall</td>
+                    <td>{{player.physical}}</td>
+                </tr>
+
+                <tr>
+                    <td>Speed</td>
+                    <td>{{player.speed}}</td>
+                </tr>
+                <tr>
+                    <td>Strength</td>
+                    <td>{{player.mid}}</td>
+                </tr>
+
+                <tr>
+                    <td>Vertical</td>
+                    <td>{{player.vertical}}</td>
+                </tr>
+
+
+            </table>
+
+
+        </td>
+        <td class="main-body" style="width: 70%; vertical-align: top;">
+            <table style=" border: 1px solid #000000;">
+                <tr>
+                    <th>Offers</th>
+                    <button> make cpu offers</button>
+                    <button> make user offer</button>
+                </tr>
+                <tr>
+                    <th>Team</th>
+                    <th>Offer</th>
+                    <th>Interest</th>
+                </tr>
+                <!-- Add rows for player offers here -->
+                <!-- Example row: -->
+                <tr>
+                    <td>Team </td>
+                    <td>3 million scorp</td>
+                    <td>gonna make an interest bar for this</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</div>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
