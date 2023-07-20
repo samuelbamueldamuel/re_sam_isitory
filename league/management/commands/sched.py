@@ -152,7 +152,7 @@ class Command(BaseCommand):
         mainSched = set(mainSched)
         oppSched = set(oppSched)
         
-        games = list(mainSched.intersection(oppSched))[:6]
+        games = list(mainSched.intersection(oppSched))[:4]
         games = list(games)
         
         for x in games:
@@ -177,7 +177,7 @@ class Command(BaseCommand):
         mainSched = set(mainSched)
         oppSched = set(oppSched)
         
-        games = list(mainSched.intersection(oppSched))[:4]
+        games = list(mainSched.intersection(oppSched))[:3]
         games = list(games)
         
         for x in games:
@@ -197,7 +197,20 @@ class Command(BaseCommand):
         
         
 
+    def getGames(self, team):
+        games = Game.objects.filter(Q(awayTeam=team) | Q(homeTeam=team))   
         
+        homeTeams = games.values_list('homeTeam', flat=True).distinct()
+        awayTeams = games.values_list('awayTeam', flat=True).distinct()
+        
+        listOfPlayed = homeTeams.union(awayTeams)
+        
+        listOfPlayed = list(listOfPlayed)
+        if team in listOfPlayed:
+            listOfPlayed.remove(team)
+        print("ListTeam: ", team,  " listOfPlayed: ", listOfPlayed)
+        return listOfPlayed
+
     
     def genConfGames(self, team):
         confTeams = self.getConfTeams(team)
@@ -205,6 +218,12 @@ class Command(BaseCommand):
         
         playedFourGames = self.checkFourGames(team)
         playedSixGames = self.checkSixGames(team)
+        playedTeamsString = self.getGames(team)
+        playedTeams = []
+        for played in playedTeamsString:
+            playedTeam = Team.objects.filter(t_id=played).first()
+            playedTeams.append(playedTeam)
+            
         
         fourList = self.getFourList(team, confTeams, playedFourGames)
         
@@ -228,13 +247,22 @@ class Command(BaseCommand):
                 newFourList.remove(opp)
         
         
-        
+
         
         # newSixList = [x for x in sixList if x not in playedSixGames]
         newSixList = sixList
         
         for opp in playedSixGames:
             if opp in newSixList:
+                newSixList.remove(opp)
+                
+        for opp in list(playedTeams):
+            if opp in list(newFourList):
+                print("removed")
+                newFourList.remove(opp)
+            
+            if opp in list(newSixList):
+                print("removed")
                 newSixList.remove(opp)
         print("teamBeingSched: ", team)
                 
@@ -243,6 +271,18 @@ class Command(BaseCommand):
         print("newFourList: ", newFourList)
         print("sixList: ", sixList)
         print("newSixList: ", newSixList)
+        
+        print("test1: ", playedTeams)
+        print("test2: ", newFourList)
+        
+        for opp in playedTeams:
+            if opp in newFourList:
+                print("removed")
+                newFourList.remove(opp)
+            
+            if opp in newSixList:
+                print("removed")
+                newSixList.remove(opp)
         
         for opp in newFourList:
             self.genFourGames(team, opp)
@@ -255,16 +295,17 @@ class Command(BaseCommand):
     
     
     def handle(self, *args, **kwargs):
-        # Game.objects.all().delete()
+        Game.objects.all().delete()
         
-        # teams = Team.objects.filter(~Q(t_id='FAA'))
+        teams = Team.objects.filter(~Q(t_id='FAA'))
         
-        # for team in teams:
-        #     self.genConfGames(team)
+        for team in teams:
+            self.genConfGames(team)
         
-        team = Team.objects.filter(t_id='ATH').first()
-        list = self.checkFourGames(team)
-        print(list)
+        # team = Team.objects.filter(t_id='ATH').first()
+        # self.genConfGames(team)
+        # list = self.checkFourGames(team)
+        # print(list)
             
             
             # self.genDivGames(team)

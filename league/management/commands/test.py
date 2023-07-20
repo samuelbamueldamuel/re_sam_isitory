@@ -11,7 +11,7 @@ class Command(BaseCommand):
         # for team in teams:
         #     games = Game.objects.filter(Q(awayTeam=team) | Q(homeTeam=team)).count()
         #     print(team.name + " game count: " + str(games))
-        team = Team.objects.filter(t_id='ATH').first()
+        team = Team.objects.filter(t_id='CAI').first()
         games = Game.objects.filter(Q(awayTeam=team) | Q(homeTeam=team))
         print(len(games))
         awayTeams = games.values_list('awayTeam', flat=True).distinct()
