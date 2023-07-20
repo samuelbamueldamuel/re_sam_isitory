@@ -174,25 +174,30 @@
 
         </td>
         <td class="main-body" style="width: 70%; vertical-align: top;">
-            <table style=" border: 1px solid #000000;">
+            <table style="border: 1px solid #000000;">
                 <tr>
                     <th>Offers</th>
-                    <button> make cpu offers</button>
-                    <button> make user offer</button>
+                    <!-- Add the URL for CPU offers view in the 'href' attribute of the button -->
+                    <a href="{% url 'cpuOffer' player.id %}">
+                        <button type="button" class="btn btn-sm btn-primary">Make CPU offers</button>
+                    </a>
+                    <button>Make user offer</button>
                 </tr>
                 <tr>
                     <th>Team</th>
                     <th>Offer</th>
-                    <th>Interest</th>
                 </tr>
                 <!-- Add rows for player offers here -->
                 <!-- Example row: -->
-                <tr>
-                    <td>Team </td>
-                    <td>3 million scorp</td>
-                    <td>gonna make an interest bar for this</td>
+                {% for offer in offers %}
+                <tr id="team_{{ offer.team_name }}">
+                    <td>{{ offer.team_name }}</td>
+                    <td>{{ offer.offer }}</td>
                 </tr>
+                {% endfor %}
             </table>
+            
+            
         </td>
     </tr>
 </table>

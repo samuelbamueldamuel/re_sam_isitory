@@ -31,6 +31,6 @@ urlpatterns = [
     path('goToTrade/', UserViews.goToTrade, name='goToTrade'),
     path('playersFA/', AdminViews.playersFA, name='playersFA'),
     path('playersFApage/<str:id>', AdminViews.playersFApage, name='playersFApage'),
-
+    path('cpuOffer/<str:id>', AdminViews.cpuOffer, name='cpuOffer'),
 
 ]

@@ -3,9 +3,12 @@ from django.http import HttpResponse
 from ..scripts.gen_players import birth
 from ..scripts.startup_draft import rounds, draft, printTest
 from ..scripts.makeUser import assignUser
-from ..models import Player, Team
+from ..models import Player, Team, Offer
 from ..scripts.delete_players import deletePlayers
 from ..scripts.assignSalary import main
+from ..scripts.assignSalary import getSalary
+
+
 import time
 
 
@@ -146,8 +149,56 @@ def playersFA(request):
 def playersFApage(request, id):
     selectedPlayer = Player.objects.filter(id=id).first()
 
+
     context = {
         'player': selectedPlayer
     }
     return render(request, 'playersFApage.html', context)
+
+def cpuOffer(request, id):
+    print(" you clicked that shit")
+    userTeam = Team.objects.filter(userTeam=True).first()
+    selectedPlayer = Player.objects.filter(id=id).first()
+
+    user_team_id = userTeam.t_id
+
+    # Check if offers already exist for the selected player in the database
+    existing_offers = Offer.objects.filter(player=selectedPlayer)
+
+    if not existing_offers.exists():
+        # If offers don't exist in the database, generate new offers and save them
+        other_teams = Team.objects.exclude(t_id=user_team_id)
+
+        offers = []
+        for team in other_teams:
+            offer = {
+                'team_name': team.t_id,
+                'offer': getSalary(selectedPlayer.value),
+            }
+            offers.append(offer)
+
+        # Save the generated offers to the database
+        for offer_data in offers:
+            team_name = offer_data['team_name']
+            offer_value = offer_data['offer']
+            offer = Offer.objects.create(team_name=team_name, offer=offer_value, player=selectedPlayer)
+
+    else:
+        # If offers exist in the database, retrieve them
+        offers = [
+            {'team_name': offer.team_name, 'offer': offer.offer}
+            for offer in existing_offers
+        ]
+
+    print("OFFERS...")
+    print(offers)
+
+    context = {
+        'userTeam': userTeam,
+        'player': selectedPlayer,
+        'offers': offers,
+    }
+    return render(request, 'playersFApage.html', context)
+
+
 # Create your views here.
