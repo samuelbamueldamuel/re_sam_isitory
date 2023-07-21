@@ -6,6 +6,7 @@ import sys
 
 class Command(BaseCommand):
     def scheduleDivOppenent(self, mainTeam, OppTeam, mainList, oppList):
+
         oppList = list(oppList)
         mainList = list(mainList)
         
@@ -99,11 +100,17 @@ class Command(BaseCommand):
             elif(gamesCount == 4):
                 sixList.append(team)
             else:
-                print("not six or 4, smths fucked")
+                pass
+        if team in fourList:
+            fourList.remove(team)  
+        
+        if team in sixList:
+            sixList.remove(team)  
             
         return fourList, sixList
     
     def genFourSixLists(self, team, playedFour, playedSix, confTeams):
+        
         fourList = []
         sixList = []
         
@@ -123,11 +130,10 @@ class Command(BaseCommand):
                 fourList.append(teamSel)
             except IndexError:
                 print("index error")
-                print(team)
+                
                 gamesCount = Game.objects.filter(Q(awayTeam=team) | Q(homeTeam=team)).count()
-                print(gamesCount)
-                print("four: ", fourList)
-                print("six: ", sixList)
+                
+
                 sys.exit()
                 
         for x in range(sixNeed):
@@ -137,11 +143,11 @@ class Command(BaseCommand):
                 sixList.append(teamSel)
             except IndexError:
                 print("index error")
-                print(team)
+                # print(team)
                 gamesCount = Game.objects.filter(Q(awayTeam=team) | Q(homeTeam=team)).count()
-                print(gamesCount)
-                print("four: ", fourNeed, "   ", fourList)
-                print("six: ", sixList)
+                # print(gamesCount)
+                # print("four: ", fourNeed, "   ", fourList)
+                # print("six: ", sixList)
                 sys.exit()
             
         for opp in playedFour:
@@ -205,9 +211,10 @@ class Command(BaseCommand):
                 newGame.save()        
         
                 
-    def schedConf(self, team):
+    def schedConf(self, team, count):
+        games = Game.objects.filter(Q(homeTeam=team) | Q(awayTeam=team)).count()
         confTeams = Team.objects.filter(Q(conference=team.conference) & ~Q(division=team.division) & ~Q(t_id=team.t_id)) 
-        print("Team: ", team, " confTeams: ", confTeams)
+        
         confTeams = list(confTeams) #list of objects
         playedTeams = self.playedTeams(team)
         
@@ -217,6 +224,13 @@ class Command(BaseCommand):
         
                 
         playedFourList, playedSixList = self.getAmountTeams(team, playedTeams)
+        if(len(playedFourList) >= 5):
+            print("fuck")
+            pass
+        
+        if(len(playedSixList) >= 7):
+            print("fuck")
+            pass
         
         fourList, sixList = self.genFourSixLists(team, playedFourList, playedSixList, confTeams)
         
@@ -226,6 +240,13 @@ class Command(BaseCommand):
         for opp in sixList:
             self.genSixGames(team, opp)
         
+        games = Game.objects.filter(Q(homeTeam=team) | Q(awayTeam=team)).count()
+        print(games)
+        #stuff
+        
+        
+        
+        
         
         
         
@@ -235,8 +256,12 @@ class Command(BaseCommand):
         
         
 
-
+    
     def handle(self, *args, **kwargs):
+        
+        count = 0
+        
+        
         Game.objects.all().delete()
     
         teams = Team.objects.filter(~Q(t_id='FAA'))
@@ -244,4 +269,5 @@ class Command(BaseCommand):
         # self.schedConf(team)
         for team in teams:
             # self.genDivGames(team)
-            self.schedConf(team)
+            self.schedConf(team, count)
+            count += 1
