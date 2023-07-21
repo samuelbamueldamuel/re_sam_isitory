@@ -148,6 +148,7 @@ class Command(BaseCommand):
                 # print(gamesCount)
                 # print("four: ", fourNeed, "   ", fourList)
                 # print("six: ", sixList)
+                print("fuck")
                 sys.exit()
             
         for opp in playedFour:
