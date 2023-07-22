@@ -7,6 +7,8 @@ class Team(models.Model):
     conference = models.CharField(max_length=4, null=True)
     division = models.CharField(max_length=10, null=True)
     userTeam = models.BooleanField(default=False)
+    sixTeams = models.IntegerField(default=0)
+    fourTeams = models.IntegerField(default=0)
 
 
 

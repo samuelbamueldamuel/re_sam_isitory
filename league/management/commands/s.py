@@ -88,18 +88,26 @@ class Command(BaseCommand):
         return teams
     
     def getAmountTeams(self, team, playedTeams):
+        playedTeams = list(playedTeams)
         fourList = []
         sixList = [] 
-        for opp in playedTeams:
+        if team in playedTeams:
+            playedTeams.remove(team)  
+        
+        if team in sixList:
+            sixList.remove(team)  
+            
+        for opp in playedTeams:#todo: fix this
             
             gamesCount = Game.objects.filter((Q(awayTeam=team) & Q(homeTeam=opp)) | (Q(awayTeam=opp) & Q(homeTeam=team))).count()
             
             
             if(gamesCount == 3):
-                fourList.append(team)
+                fourList.append(opp)
             elif(gamesCount == 4):
-                sixList.append(team)
+                sixList.append(opp)
             else:
+                print("shit")
                 pass
         if team in fourList:
             fourList.remove(team)  
@@ -109,8 +117,9 @@ class Command(BaseCommand):
             
         return fourList, sixList
     
-    def genFourSixLists(self, team, playedFour, playedSix, confTeams):
-        
+    def genFourSixLists(self, team, playedFour, playedSix, confTeams, confLenZero, played):
+        confTeams = list(confTeams)
+        confLenOne = len(confTeams)
         fourList = []
         sixList = []
         
@@ -122,12 +131,13 @@ class Command(BaseCommand):
             
         fourNeed = 4 - len(fourList)
         sixNeed = 6 - len(sixList)
-
+        confLenTwo = len(confTeams)
         for x in range(fourNeed):
             try:
                 teamSel = random.choice(confTeams)
                 confTeams.remove(teamSel)
                 fourList.append(teamSel)
+                
             except IndexError:
                 print("index error")
                 
@@ -135,7 +145,7 @@ class Command(BaseCommand):
                 
 
                 sys.exit()
-                
+        confLenThree = len(confTeams)       
         for x in range(sixNeed):
             try:
                 teamSel = random.choice(confTeams)
@@ -223,17 +233,26 @@ class Command(BaseCommand):
             if opp in confTeams:
                 confTeams.remove(opp)
         
-                
+        confLenZero = len(confTeams)        
         playedFourList, playedSixList = self.getAmountTeams(team, playedTeams)
+        
+        lenPlayedLists = len(playedFourList) + len(playedSixList)
+        if team in playedTeams:
+            playedTeams.remove(team)
+        
+        if(lenPlayedLists != len(playedTeams)):
+            print("fuck")
+            print("something is fuckedddd")
         if(len(playedFourList) >= 5):
             print("fuck")
-            pass
+            sys.exit()
         
         if(len(playedSixList) >= 7):
             print("fuck")
+            sys.exit()
             pass
         
-        fourList, sixList = self.genFourSixLists(team, playedFourList, playedSixList, confTeams)
+        fourList, sixList = self.genFourSixLists(team, playedFourList, playedSixList, confTeams, confLenZero, playedTeams)
         
         
         for opp in fourList:
