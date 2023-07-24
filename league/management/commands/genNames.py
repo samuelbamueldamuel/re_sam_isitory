@@ -39,9 +39,12 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('num', type=int, help='num of names to be added')
+        parser.add_argument('word', type=str, help='test word')
 
     def handle(self, *args, **kwargs):
         num = kwargs['num']
+        word = kwargs['word']
+        print(word)
         f = 1
         l = 1
         # for i in range(num):
