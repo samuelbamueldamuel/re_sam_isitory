@@ -235,8 +235,70 @@ class Command(BaseCommand):
         #     newList = Command.teamsData[team.t_id]['sixList']
         #     print(len(list))
         #     # print(len(newList))
+    def genFourGames(self, mainTeam, oppTeam):
+        mainSched = self.numberedGames(mainTeam)
+        oppSched = self.numberedGames(oppTeam)
         
-            
+        mainSched = set(mainSched)
+        oppSched = set(oppSched)
+        
+        games = list(mainSched.intersection(oppSched))[:3]
+        games = list(games)
+        
+        for x in games:
+            homeOrAway = random.randint(1, 2)
+                
+            if(homeOrAway == 1):
+                
+                newGame = Game(homeTeam=mainTeam, awayTeam=oppTeam, week=x)
+                
+                newGame.save()
+                
+            else:
+                
+                newGame = Game(homeTeam=oppTeam, awayTeam=mainTeam, week=x)
+                
+                newGame.save()
+                
+
+    def genSixGames(self, mainTeam, oppTeam):
+        mainSched = self.numberedGames(mainTeam)
+        oppSched = self.numberedGames(oppTeam)
+        
+        mainSched = set(mainSched)
+        oppSched = set(oppSched)
+        
+        games = list(mainSched.intersection(oppSched))[:4]
+        games = list(games)
+        
+        for x in games:
+            homeOrAway = random.randint(1, 2)
+                
+            if(homeOrAway == 1):
+                
+                newGame = Game(homeTeam=mainTeam, awayTeam=oppTeam, week=x)
+                
+                newGame.save()
+                
+            else:
+                
+                newGame = Game(homeTeam=oppTeam, awayTeam=mainTeam, week=x)
+                
+                newGame.save()    
+                        
+    def genConf(self):
+        teams = Team.objects.filter(~Q(t_id='FAA'))
+        
+        for team in teams:
+            fourList = Command.teamsData[team.t_id]['fourList']
+            for opp in fourList:
+                self.genFourGames(team, opp)
+                Command.teamsData[opp.t_id]['fourList'].remove(team)
+        for team in teams:
+            sixList = Command.teamsData[team.t_id]['sixList']
+            for opp in sixList:
+                self.genSixGames(team, opp)
+                Command.teamsData[opp.t_id]['sixList'].remove(team)             
             
             
     def handle(self, *args, **kwargs):
@@ -246,11 +308,6 @@ class Command(BaseCommand):
         self.popDict()
         teams = Team.objects.filter(~Q(t_id='FAA'))
         self.schedConf()
-        for team in teams:
-            list = Command.teamsData[team.t_id]['fourList']
-            newList = Command.teamsData[team.t_id]['sixList']
-            print(len(list))
-            print(len(newList))
-        print("end")
+        self.genConf()
         # for team in teams:
         #     self.genDivGames(team)
