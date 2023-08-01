@@ -23,5 +23,9 @@ urlpatterns = [
     path('salaryBreakdown/', UserViews.salaryBreakdown, name='salaryBreakdown'),
     path('leagueSalary/', UserViews.leagueSalary, name='leagueSalary'),
     path('testView/', UserViews.testView, name='testView'),
-    path('salaryBreakdownL/<str:t_id>', UserViews.salaryBreakdownL, name='salaryBreakdownL')
+    path('salaryBreakdownL/<str:t_id>', UserViews.salaryBreakdownL, name='salaryBreakdownL'),
+    path('makeSched', AdminViews.makeSched, name='makeSched'),
+    path('teamGames', UserViews.teamGames, name='teamGames'),
+    path('leagueGames/<str:week>', UserViews.leagueGames, name='leagueGames'),
+    path('leagueGame', UserViews.leagueGame, name='leagueGame')
 ]

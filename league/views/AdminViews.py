@@ -6,6 +6,7 @@ from ..scripts.makeUser import assignUser
 from ..models import Player, Team
 from ..scripts.delete_players import deletePlayers
 from ..scripts.assignSalary import main
+from ..scripts.sched import createGames
 import time
 
 
@@ -135,4 +136,9 @@ def assignSalary(request):
     main()
     
     return render(request, 'players.html')
+
+def makeSched(request):
+    createGames()
+    
+    return render(request, 'home.html')
 # Create your views here.
