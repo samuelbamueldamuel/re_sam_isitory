@@ -3,7 +3,7 @@ from league.models import Team, Game, Player
 from django.db.models import Q
 import random
 import sys
-
+import time
 class Command(BaseCommand):
     def scheduleDivOppenent(self, mainTeam, OppTeam, mainList, oppList):
         oppList = list(oppList)
@@ -255,260 +255,157 @@ class Command(BaseCommand):
         #     newList = Command.teamsData[team.t_id]['sixList']
         #     print(len(list))
         #     # print(len(newList))
-    def genFourGames(self, mainTeam, oppTeam):
-        mainSched = self.numberedGames(mainTeam)
-        oppSched = self.numberedGames(oppTeam)
-        
-        mainSched = set(mainSched)
-        oppSched = set(oppSched)
-        
-        games = list(mainSched.intersection(oppSched))[:3]
-        games = list(games)
-        
-        for x in games:
-            homeOrAway = random.randint(1, 2)
-                
-            if(homeOrAway == 1):
-                
-                newGame = Game(homeTeam=mainTeam, awayTeam=oppTeam, week=x)
-                
-                newGame.save()
-                
-            else:
-                
-                newGame = Game(homeTeam=oppTeam, awayTeam=mainTeam, week=x)
-                
-                newGame.save()
-                
 
-    def genSixGames(self, mainTeam, oppTeam):
-        mainSched = self.numberedGames(mainTeam)
-        oppSched = self.numberedGames(oppTeam)
-        
-        mainSched = set(mainSched)
-        oppSched = set(oppSched)
-        
-        games = list(mainSched.intersection(oppSched))[:4]
-        games = list(games)
-        
-        for x in games:
-            homeOrAway = random.randint(1, 2)
-                
-            if(homeOrAway == 1):
-                
-                newGame = Game(homeTeam=mainTeam, awayTeam=oppTeam, week=x)
-                
-                newGame.save()
-                
-            else:
-                
-                newGame = Game(homeTeam=oppTeam, awayTeam=mainTeam, week=x)
-                
-                newGame.save()    
-                        
-    def genConf(self):
-        teams = Team.objects.filter(~Q(t_id='FAA'))
-        
-        for team in teams:
-            fourList = Command.teamsData[team.t_id]['fourList']
-            for opp in fourList:
-                self.genFourGames(team, opp)
-                Command.teamsData[opp.t_id]['fourList'].remove(team)
-        for team in teams:
-            sixList = Command.teamsData[team.t_id]['sixList']
-            for opp in sixList:
-                self.genSixGames(team, opp)
-                Command.teamsData[opp.t_id]['sixList'].remove(team)
-    def newTrack(self, team, opp, game):
-        fourList = Command.teamsData[team.t_id]['fourList']
-        sixList = Command.teamsData[team.t_id]['sixList']
-        
-        divList = Command.teamsData[team.t_id]['divTeams']
-        altConfList = Command.teamsData[team.t_id]['altConfTeams']
-        
-        allOpps = fourList + sixList + divList + altConfList
-        allOpps.remove(opp)
-        
-        mainGames = Command.teamsData[team.t_id]['games']
-        oppGames = Command.teamsData[opp.t_id]['games']
-        
-        for mainGame in mainGames: #iterating over all open games the opp has
-            for mainOpps in allOpps: #iterating over all oppenets main has
-                secOppGames = Command.teamsData[mainOpps.t_id]['games']
-                
-                if mainGame in secOppGames and game is oppGames: 
-                    sys.exit()#this means that a game of main team is 
-                
-                    
-        
-        
-        
-        
-    
-    
-    def lastResort(self, team, opp, game):
-        mainGames = Command.teamsData[team.t_id]['games']
-        oppGames = Command.teamsData[opp.t_id]['games']
-        
-        for gameX in oppGames:
-            if gameX in mainGames:
-                return gameX
-            
-            mainGame = Game.objects.filter((Q(homeTeam = team) | Q(awayTeam=team)) & Q(week=gameX)).first()
-            mainGameList = [mainGame.homeTeam, mainGame.awayTeam]
-            mainGameList.remove(team)
-            
-            secOpp = mainGameList[0]
-            secOppGames = Command.teamsData[secOpp.t_id]['games']
-            
-            if gameX in secOppGames:
-                Command.teamsData[team.t_id]['games'].append(mainGame.week)
-                Command.teamsData[secOpp.t_id]['games'].append(mainGame.week)
-                mainGame.week = gameX
-                mainGame.save()
-                Command.teamsData[team.t_id]['games'].remove(gameX)
-                Command.teamsData[secOpp.t_id]['games'].remove(gameX)
-                return gameX
-            
-        self.newTrack(team, opp, game)
-                
-            
-    
-                
-    def revBack(self, team, opp, game, recu, where):
-
-        print(recu)
-        newRecu = recu + 1
-        oppGames = Command.teamsData[opp.t_id]['games']
-        
-        ranOppGame = random.choice(oppGames)
-        
-        gameOpp = Game.objects.filter((Q(homeTeam=team) | Q(awayTeam=team)) & Q(week=ranOppGame)).first()
-        listX = [gameOpp.homeTeam, gameOpp.awayTeam]
-        listX.remove(team)
-        repla = listX[0]
-        replaGames = Command.teamsData[repla.t_id]['games']
-        if recu > 200:
-            return self.lastResort(team, opp, game)
-        
-        if game not in replaGames:
-            return self.revBack(team, opp, game, newRecu, where)
-        else:
-            gameOpp.week = game
-            gameOpp.save()
-            Command.teamsData[team.t_id]['games'].append(ranOppGame)
-            Command.teamsData[repla.t_id]['games'].append(ranOppGame)
-            
-            Command.teamsData[team.t_id]['games'].remove(game)
-            Command.teamsData[repla.t_id]['games'].remove(game)
-            if ranOppGame is None:
-                sys.exit()
-    
-            return ranOppGame
-                
-    def backtrackGames(self, team, opp, game):
-        gameOpp = Game.objects.filter((Q(homeTeam=opp) | Q(awayTeam=opp)) & Q(week=game)).first()
-        list = [gameOpp.homeTeam, gameOpp.awayTeam]
-        list.remove(opp)
-        repla = list[0]
-        
-        replaGames = Command.teamsData[repla.t_id]['games']
-        
-        if game in replaGames:
-            newGame = self.revBack(team, opp, game, 1, 'yeee')
-            if newGame is None:
-                sys.exit()
-            return newGame
-        else:
-            newGame = self.revBack(team, opp, game, 1, 'nahh')
-            if newGame is None:
-                sys.exit()
-            return newGame
-    
-    def genGames(self, team, opp, num, listName):
-        
-        mainGames = Command.teamsData[team.t_id]['games']
-        oppGames = Command.teamsData[opp.t_id]['games']
-        
-        
-        for x in range(num):
-            gameSelectedNum = random.choice(mainGames)
-            i = 0
-            while gameSelectedNum not in oppGames:
-                gameSelectedNum = random.choice(mainGames)       
-                i += 1
-                if i > 200:
-                    gameSelectedNum = self.backtrackGames(team, opp, gameSelectedNum)
-                    if gameSelectedNum is None:
-                        sys.exit()   
-            oppGames.remove(gameSelectedNum)
-            mainGames.remove(gameSelectedNum)
-            
-            homeOrAway = random.randint(1, 2)
-            
-            if(homeOrAway == 1):
-                newGame = Game(homeTeam=team, awayTeam=opp, week=gameSelectedNum)
-                newGame.save()
-            else:
-                newGame = Game(homeTeam=opp, awayTeam=team, week=gameSelectedNum)
-                newGame.save()
-        Command.teamsData[team.t_id]['games'] = mainGames
-        Command.teamsData[opp.t_id]['games'] = oppGames
-        
-        # Command.teamsData[team.t_id]['altConfTeams'].remove(opp)
-        Command.teamsData[opp.t_id][listName].remove(team)
-        
-        games = Game.objects.filter((Q(awayTeam=team) & Q(homeTeam=opp)) | (Q(awayTeam=opp) & Q(homeTeam=team))).count()
-        
-
-    
-        
-    def sched(self, team):
-        fourList = Command.teamsData[team.t_id]['fourList']
-        sixList = Command.teamsData[team.t_id]['sixList']
-        
-        divList = Command.teamsData[team.t_id]['divTeams']
-        altConfList = Command.teamsData[team.t_id]['altConfTeams']
-        
-        gamesList = Command.teamsData[team.t_id]['games']
-        
-        # print(team.conference, " : ", len(altConfList))
-        # print("len: ", len(altConfList))
-        for opp in altConfList:
-            self.genGames(team, opp, 2, 'altConfTeams')
-        # print("altconf done")
-        for opp in fourList:
-            self.genGames(team, opp, 3, 'fourList')
-        # print("fourlist done")
-        for opp in sixList:
-            self.genGames(team, opp, 4, 'sixList')
-        # print("sixList done")
-        for opp in divList:
-            self.genGames(team, opp, 4, 'divTeams')
         # print("div done")
             
             
-             
+   
+    
+    teamsOpps = {}
+    
+            
         
                 
 
+    def popOpps(self):
+        teams = Team.objects.filter(~Q(t_id='FAA'))     
+        
+        for team in teams:
+            Command.teamsOpps[team.t_id] = {}
+            
+            for opp in Command.teamsData[team.t_id]['fourList']:
+                Command.teamsOpps[team.t_id][opp.t_id] = 3
+            for opp in Command.teamsData[team.t_id]['sixList']:
+                Command.teamsOpps[team.t_id][opp.t_id] = 4
+            for opp in Command.teamsData[team.t_id]['divTeams']:
+                Command.teamsOpps[team.t_id][opp.t_id] = 4
+            for opp in Command.teamsData[team.t_id]['altConfTeams']:
+                Command.teamsOpps[team.t_id][opp.t_id] = 2
+                
+    # def getOpp(self, team, teams):
+    #     oppList = Command.teamsOpps[team.t_id]
+    #     teamsList = []
+    #     for opp in teams:
+    #         teamsList.append(opp.t_id)
+                
+    #     list = []
+    #     for key, value in oppList.items():
+    #         if value > 0:
+    #             list.append(key)
+    #     for opp in list:
+            
+    #         if opp not in teamsList:
+    #             list.remove(opp)
+    #     oppID = random.choice(list)
+    #     opp = Team.objects.filter(t_id=oppID).first()
+    #     if opp not in teamsList:
+    #         pass
+    #     return opp
+    
+    def getOpp(self, team, teams):
+        oppList = Command.teamsOpps[team.t_id]
+        teamsList = [opp.t_id for opp in teams]
+        
+        valid_opponents = [opp for opp in oppList.keys() if opp in teamsList and oppList[opp] > 0]
+        try:
+            oppID = random.choice(valid_opponents)
+        except IndexError:
+            self.getTeamList()
+        opp = Team.objects.filter(t_id=oppID).first()
+        return opp
+                
+        
+        
+                
+    def getTeamList(self):
+        games = {}
+        teams = Team.objects.filter(~Q(t_id='FAA'))
+        teams = list(teams)
+        i = 1
+        
+            
+            
+        
+        for x in range(15):
+            teamSel = random.choice(teams)
+            teams.remove(teamSel)
+            length = len(teams)
+            opp = self.getOpp(teamSel, teams)
+
+            teams.remove(opp)
+            listX = [teamSel, opp]
+            games[x] = listX
+        return games
+    
+    def adjustOpps(self, dict):
+        for game in dict:
+            list = dict[game]
+            
+            teamOne = list[0]
+            teamTwo = list[1]
+            
+            Command.teamsOpps[teamOne.t_id][teamTwo.t_id] = Command.teamsOpps[teamOne.t_id][teamTwo.t_id] - 1
+            Command.teamsOpps[teamTwo.t_id][teamOne.t_id] = Command.teamsOpps[teamTwo.t_id][teamOne.t_id] - 1
+            return
+    def schedGame(self, gameList, week):
+        teamOne = gameList[0]
+        teamTwo = gameList[1]
+        
+        ranNum = random.randint(1, 2)
+        
+        if ranNum == 1:
+            newGame = Game(homeTeam=teamOne, awayTeam=teamTwo, week=week)
+            newGame.save()
+        if ranNum == 2:
+            newGame = Game(homeTeam=teamTwo, awayTeam=teamOne, week=week )
+            newGame.save()
+    
+    def schedWeek(self, dict, week):
+        for game in dict:
+            gameList = dict[game]
+            self.schedGame(gameList, week)
+        
+        
+        
+        
+                
+    def sched(self):
+        teams = Team.objects.filter(~Q(t_id='FAA'))
+        teams = list(teams)
+        weeks = []
+        x = 1
+        for i in range(82):
+            weeks.append(x)
+            x += 1
+            
+        for week in weeks:
+            gamesDict = self.getTeamList()
+            self.adjustOpps(gamesDict)
+            self.schedWeek(gamesDict, week)
+            print(week)
+            
+            
+        
+        
+            
+            
             
             
     def handle(self, *args, **kwargs):
+        start = time.time()
         sys.setrecursionlimit(30000)
         #TODO backtrack 
         Game.objects.all().delete()
         self.popDict()
         teams = Team.objects.filter(~Q(t_id='FAA'))
         self.schedConf()
-        x = 1
-        for team in teams:
-            self.sched(team)
-            print("sched DONE: ", x)
-            x += 1
-        # self.genConf()
-        
-        # for team in teams:
-        #     self.genDivGames(team)
-        
-        
+        self.popOpps()
+        self.sched()
+        end = time.time()
+        total = end-start
+        print("time: " + str(total))
+        # i = 1
+        # for x in games:
+        #     print(games[x])
+        #     i += 1
+        # x = 1

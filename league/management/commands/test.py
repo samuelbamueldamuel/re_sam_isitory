@@ -23,10 +23,10 @@ class Command(BaseCommand):
         print(awayTeams)
         print(homeTeams)
         print(combined)
-        
-        for oppTeam in combined:
+        confTeams = Team.objects.filter(~Q(conference=team.conference))
+        for oppTeam in confTeams:
             oppGames = games.filter(Q(awayTeam=oppTeam) | Q(homeTeam=oppTeam))
-            print(oppTeam + " games: " + str(len(oppGames)))
+            print(oppTeam, " games: " + str(len(oppGames)))
         
         
 
