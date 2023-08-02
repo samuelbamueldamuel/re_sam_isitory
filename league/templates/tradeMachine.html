@@ -1,0 +1,161 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+</head>
+<body>
+    <table>
+        <tr>
+            <th>User Players</th>
+        </tr>
+        {% for player in userPlayers %}
+        <tr>
+            <td>
+                <input type="checkbox" name="user_player_checkbox" value="{{player.id}}">
+                {{player.first_name}} {{player.last_name}}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <table>
+        <tr>
+            <th>Selected Players</th>
+        </tr>
+        {% for player in selectedPlayers %}
+        <tr>
+            <td>
+                <input type="checkbox" name="selected_player_checkbox" value="{{player.id}}">
+                {{player.first_name}} {{player.last_name}}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <button onclick="handleTrade()">add players to trade arrays</button>
+    <button onclick="doTrade()">Do Trade</button>
+    <button onclick="printPlayers()">print players</button>
+
+
+    <script>
+        var checkedUserPlayers = [];
+        var checkedSelectedPlayers = [];
+
+
+        function handleTrade() {
+            checkedUserPlayers = getCheckedPlayerIds('user_player_checkbox');
+            checkedSelectedPlayers = getCheckedPlayerIds('selected_player_checkbox');
+
+            console.log(checkedUserPlayers);
+            console.log(checkedSelectedPlayers);
+        }
+
+        function getCheckedPlayerIds(checkboxName) {
+            var checkedPlayerIds = [];
+            var checkboxes = document.getElementsByName(checkboxName);
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    checkedPlayerIds.push(checkboxes[i].value);
+                }
+            }
+            return checkedPlayerIds;
+        }
+
+        function doTrade() {
+            var temp = checkedUserPlayers;
+            checkedUserPlayers = checkedSelectedPlayers;
+            checkedSelectedPlayers = temp;
+
+            console.log(checkedUserPlayers);
+            console.log(checkedSelectedPlayers);
+        }
+        function printPlayers() {
+            console.log(checkedUserPlayers);
+            console.log(checkedSelectedPlayers);
+        }
+
+        
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+</head>
+<body>
+    <form method="POST" action="{% url 'addArray' t_id %}">
+        {% csrf_token %}
+        
+        <table>
+            <tr>
+                <th>User Players</th>
+            </tr>
+            {% for player in userPlayers %}
+            <tr>
+                <td>
+                    <input type="checkbox" name="user_player_checkbox" value="{{player.id}}" data-team-id="{{player.team_id}}">
+                    {{player.first_name}} {{player.last_name}}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    
+        <table>
+            <tr>
+                <th>Selected Players</th>
+            </tr>
+            {% for player in selectedPlayers %}
+            <tr>
+                <td>
+                    <input type="checkbox" name="selected_player_checkbox" value="{{player.id}}" data-team-id="{{player.team_id}}">
+                    {{player.first_name}} {{player.last_name}}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    
+        <button type="submit">Add players to trade arrays</button>
+    </form>
+    
+
+     <!-- {% if t_id %}
+    <a href="{% url 'addArray' t_id=t_id %}">
+        <button>Add players to trade arrays</button>
+    </a> -->
+        {% else %}
+    <a href="{% url 'addArray' %}">
+        <button>Add players to trade arrays</button>
+    </a>
+        {% endif %}
+    <button >Do Trade</button>
+    <!-- <button >Print team IDs</button> -->
+
+    <table>
+        <tr>
+            <th>User Players Array</th>
+        </tr>
+        <tr>
+            <td>
+                {% for player in user_players_list %}
+                    {{ player.first_name }} {{ player.last_name }}
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+    
+    <table>
+        <tr>
+            <th>Selected Players Array</th>
+        </tr>
+        <tr>
+            <td>
+                {% for player in selected_players_list %}
+                    {{ player.first_name }} {{ player.last_name }}
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
