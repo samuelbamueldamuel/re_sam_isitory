@@ -34,5 +34,8 @@ urlpatterns = [
     path('cpuOffer/<str:id>', AdminViews.cpuOffer, name='cpuOffer'),
     path('userOffer/<str:id>', AdminViews.userOffer, name='userOffer'),
     path('faWinner/<str:id>', AdminViews.faWinner, name='faWinner'),
-
+    path('makeSched', AdminViews.makeSched, name='makeSched'),
+    path('teamGames', UserViews.teamGames, name='teamGames'),
+    path('leagueGames/<str:week>', UserViews.leagueGames, name='leagueGames'),
+    path('leagueGame', UserViews.leagueGame, name='leagueGame')
 ]

@@ -7,6 +7,8 @@ class Team(models.Model):
     conference = models.CharField(max_length=4, null=True)
     division = models.CharField(max_length=10, null=True)
     userTeam = models.BooleanField(default=False)
+    sixTeams = models.IntegerField(default=0)
+    fourTeams = models.IntegerField(default=0)
 
 
 
@@ -72,7 +74,7 @@ class FName(models.Model):
 
 class LName(models.Model):
     lastName = models.CharField(max_length=55)
-    
+        
 class Offer(models.Model):
     team_name = models.CharField(max_length=100)
     offer = models.DecimalField(max_digits=6, decimal_places=2)
@@ -80,6 +82,13 @@ class Offer(models.Model):
 
     def __str__(self):
         return f"{self.team_name}: {self.offer}"
+
+class Game(models.Model):
+    homeTeam = models.ForeignKey(Team, related_name='home_games', null=True, on_delete=models.CASCADE)
+    awayTeam = models.ForeignKey(Team, related_name='away_games', null=True, on_delete=models.CASCADE)
+
+    
+    week = models.IntegerField()
 
 
 # Create your models here.

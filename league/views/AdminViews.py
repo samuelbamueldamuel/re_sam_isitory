@@ -6,6 +6,7 @@ from ..scripts.makeUser import assignUser
 from ..models import Player, Team, Offer
 from ..scripts.delete_players import deletePlayers
 from ..scripts.assignSalary import main
+from ..scripts.sched import createGames
 from ..scripts.assignSalary import getSalary
 import random
 
@@ -286,4 +287,9 @@ def faWinner(request, id):
 
 
 
+
+def makeSched(request):
+    createGames()
+    
+    return render(request, 'home.html')
 # Create your views here.
