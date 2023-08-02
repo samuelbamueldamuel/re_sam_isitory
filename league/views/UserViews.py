@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from ..models import Team, Player
+from ..models import Team, Player, Game
 from ..scripts.stage import stage
 from django.http import HttpResponse
+from django.db.models import Q
 
 def welcome(request):
     teams = Team.objects.all()
@@ -217,6 +218,42 @@ def goToTrade(request):
 
 
 
+
+
+
+
+
+def teamGames(request):
+    user = Team.objects.filter(userTeam=True).first()
+    games = Game.objects.filter(Q(awayTeam=user) | Q(homeTeam=user))
+    
+    context = {
+        'user': user,
+        'games': games
+    }
+    
+    return render(request, 'teamGames.html', context)
+
+def leagueGames(request, week):
+    games = Game.objects.filter(week=week)
+
+    context = {
+        'games': games
+    }
+    
+    return render(request, 'leagueGames.html', context)
+
+def leagueGame(request):
+    number = request.POST.get('week')
+    
+    games = Game.objects.filter(week=number)
+    print(number)
+    
+    context = {
+        'games': games,
+    }
+    
+    return render(request, 'leagueGames.html', context)
 
 
 

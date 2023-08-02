@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tablestyle.css' %}">
+
+</head>
+<body>
+<div class="table-wrapper">
+
+<table class="templatetable">
+    <tr>
+        {% include 'sidebar.html' %}
+        
+        <td colspan="2"; class="header">
+            TeamCity TeamName
+        </td>
+    </tr>
+
+    <tr>
+        <td class="main-body">
+            <table>
+                <tr>
+                    <th>Home Team</th>
+                    <th>Away Team</th>
+                    <th>Week</th>
+                </tr>
+                {% for game in games %}
+                <tr>
+                    <td>{{game.homeTeam.city}} {{game.homeTeam.name}}</td>
+                    <td>{{game.awayTeam.city}} {{game.awayTeam.name}}</td>
+                    <td>{{game.week}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            
+        </td>
+    </tr>
+</table>
+</div>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
