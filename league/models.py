@@ -72,6 +72,14 @@ class FName(models.Model):
 
 class LName(models.Model):
     lastName = models.CharField(max_length=55)
+    
+class Offer(models.Model):
+    team_name = models.CharField(max_length=100)
+    offer = models.DecimalField(max_digits=6, decimal_places=2)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.team_name}: {self.offer}"
 
 
 # Create your models here.

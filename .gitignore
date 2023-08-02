@@ -14,3 +14,4 @@ league/migrations/__pycache__/0009_player_age.cpython-311.pyc
 league/migrations/__pycache__/0010_player_contract_player_value.cpython-311.pyc
 league/migrations/__pycache__/0011_remove_player_contract_player_salary.cpython-311.pyc
 league/migrations/__pycache__/0012_team_division.cpython-311.pyc
+settings.py

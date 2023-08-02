@@ -28,6 +28,11 @@ urlpatterns = [
     path('selectTrade/<str:t_id>', UserViews.tradeMachine, name = 'selectTrade'),
     path('addArray/<str:t_id>', UserViews.addArray, name = 'addArray'),
     path('addArray/', UserViews.addArray, name='addArray'),
-    # path('doTrade/<str:t_id>', UserViews.doTrade, name='doTrade')
+    path('goToTrade/', UserViews.goToTrade, name='goToTrade'),
+    path('playersFA/', AdminViews.playersFA, name='playersFA'),
+    path('playersFApage/<str:id>', AdminViews.playersFApage, name='playersFApage'),
+    path('cpuOffer/<str:id>', AdminViews.cpuOffer, name='cpuOffer'),
+    path('userOffer/<str:id>', AdminViews.userOffer, name='userOffer'),
+    path('faWinner/<str:id>', AdminViews.faWinner, name='faWinner'),
 
 ]
