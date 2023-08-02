@@ -32,5 +32,7 @@ urlpatterns = [
     path('playersFA/', AdminViews.playersFA, name='playersFA'),
     path('playersFApage/<str:id>', AdminViews.playersFApage, name='playersFApage'),
     path('cpuOffer/<str:id>', AdminViews.cpuOffer, name='cpuOffer'),
+    path('userOffer/<str:id>', AdminViews.userOffer, name='userOffer'),
+    path('faWinner/<str:id>', AdminViews.faWinner, name='faWinner'),
 
 ]

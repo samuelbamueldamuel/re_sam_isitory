@@ -7,6 +7,7 @@ from ..models import Player, Team, Offer
 from ..scripts.delete_players import deletePlayers
 from ..scripts.assignSalary import main
 from ..scripts.assignSalary import getSalary
+import random
 
 
 import time
@@ -199,6 +200,90 @@ def cpuOffer(request, id):
         'offers': offers,
     }
     return render(request, 'playersFApage.html', context)
+
+
+def userOffer(request, id):
+    selectedPlayer = Player.objects.filter(id=id).first()
+
+    # Check if offers already exist for the selected player in the database
+    existing_offers = Offer.objects.filter(player=selectedPlayer)
+
+    if request.method == 'POST':
+        input_offer = request.POST.get('input_offer')
+        if input_offer is not None and input_offer != '':
+            input_offer = float(input_offer)
+
+            # Get the user's team to create a new offer from the user's team
+            user_team = Team.objects.filter(userTeam=True).first()
+
+            if not existing_offers.exists():
+                # If offers don't exist in the database, create a new offer with user input
+                offer = Offer.objects.create(
+                    team_name=user_team.t_id,  # Replace with the appropriate team name from the user's team
+                    offer=input_offer,
+                    player=selectedPlayer,
+                )
+            else:
+                # If offers exist in the database, update the existing offer from the user's team
+                user_team_offer = existing_offers.filter(team_name=user_team.t_id).first()
+                if user_team_offer:
+                    user_team_offer.offer = input_offer
+                    user_team_offer.save()
+                else:
+                    # If the user's team does not have an existing offer, create a new one
+                    offer = Offer.objects.create(
+                        team_name=user_team.t_id,  # Replace with the appropriate team name from the user's team
+                        offer=input_offer,
+                        player=selectedPlayer,
+                    )
+
+    # Retrieve the updated offers for the selected player
+    updated_offers = Offer.objects.filter(player=selectedPlayer)
+
+    context = {
+        'player': selectedPlayer,
+        'offers': updated_offers,
+    }
+    return render(request, 'playersFApage.html', context)
+
+
+def faWinner(request, id):
+    selectedPlayer = Player.objects.filter(id=id).first()
+
+    # Retrieve all the offers for the selected player from the database
+    offers = Offer.objects.filter(player=selectedPlayer)
+
+    # Extract the offer values and corresponding team names from the queryset
+    offer_values = [float(offer.offer) for offer in offers]  # Convert to float
+    team_names = [offer.team_name for offer in offers]
+
+    # Apply a weight to each offer value to create a weighted random selection
+    # Make sure to use consistent data types for calculations (e.g., float)
+    total_offer_value = sum(offer_values)
+    weights = [offer_value / total_offer_value for offer_value in offer_values]
+
+    # Use weighted random selection to determine the winnerTeam
+    winner_team = random.choices(team_names, weights=weights)[0]
+
+    # Set the player's salary offer to the player
+    selectedPlayer.salary_offer = total_offer_value  # Update with the total offer value
+    # Set the winning team's ID to the player
+    selectedPlayer.winning_team_id = winner_team  # Update with the ID of the winning team
+
+    # Save the updated selectedPlayer object to the database
+    selectedPlayer.save()
+
+    # You can now access the player's salary offer and the winning team's ID
+    print("Player's Salary Offer:", selectedPlayer.salary_offer)
+    print("Winning Team's ID:", selectedPlayer.winning_team_id)
+
+    context = {
+        'player': selectedPlayer,
+        'winner_team': winner_team,
+    }
+    return render(request, 'playersFApage.html', context)
+
+
 
 
 # Create your views here.

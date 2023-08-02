@@ -176,12 +176,28 @@
         <td class="main-body" style="width: 70%; vertical-align: top;">
             <table style="border: 1px solid #000000;">
                 <tr>
-                    <th>Offers</th>
+                    <th>Offers</th> 
                     <!-- Add the URL for CPU offers view in the 'href' attribute of the button -->
                     <a href="{% url 'cpuOffer' player.id %}">
                         <button type="button" class="btn btn-sm btn-primary">Make CPU offers</button>
                     </a>
-                    <button>Make user offer</button>
+                    <a href="{% url 'faWinner' player.id %}">
+                        <button type="button" class="btn btn-sm btn-primary">RNG Chooser</button>
+                    </a>
+                    <form method="post" action="{% url 'userOffer' player.id %}">
+                        {% csrf_token %}
+                        <tr>
+                            <td>{{ player.name }}</td>
+                            <td>
+                                <input type="number" name="input_offer" step="0.01" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="Submit Offer">
+                            </td>
+                        </tr>
+                    </form>
                 </tr>
                 <tr>
                     <th>Team</th>
