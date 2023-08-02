@@ -1,0 +1,16 @@
+league/__pycache__/__init__.cpython-311.pyc
+league/__pycache__/admin.cpython-311.pyc
+league/__pycache__/apps.cpython-311.pyc
+league/migrations/__pycache__/__init__.cpython-311.pyc
+league/migrations/__pycache__/0001_initial.cpython-311.pyc
+league/migrations/__pycache__/0002_alter_team_t_id.cpython-311.pyc
+league/migrations/__pycache__/0003_alter_player_first_name_alter_player_last_name_and_more.cpython-311.pyc
+league/migrations/__pycache__/0004_team_userteam_alter_player_team.cpython-311.pyc
+league/migrations/__pycache__/0005_team_conference.cpython-311.pyc
+league/migrations/__pycache__/0006_player_defense_player_physical_player_playmaker_and_more.cpython-311.pyc
+league/migrations/__pycache__/0007_alter_player_shooter.cpython-311.pyc
+league/migrations/__pycache__/0008_alter_player_defense_alter_player_physical_and_more.cpython-311.pyc
+league/migrations/__pycache__/0009_player_age.cpython-311.pyc
+league/migrations/__pycache__/0010_player_contract_player_value.cpython-311.pyc
+league/migrations/__pycache__/0011_remove_player_contract_player_salary.cpython-311.pyc
+league/migrations/__pycache__/0012_team_division.cpython-311.pyc
