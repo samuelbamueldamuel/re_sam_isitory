@@ -191,9 +191,11 @@ def cpuOffer(request, id):
             {'team_name': offer.team_name, 'offer': offer.offer}
             for offer in existing_offers
         ]
-
+    
+    # trying to print offer from specific team
+    print(Offer.objects.filter(player_id='179',team_name = 'CTD'))
     print("OFFERS...")
-    print(offers)
+    # print(offers)
 
     context = {
         'userTeam': userTeam,
@@ -250,33 +252,43 @@ def userOffer(request, id):
 
 def faWinner(request, id):
     selectedPlayer = Player.objects.filter(id=id).first()
+    # print("made it here 1")
 
     # Retrieve all the offers for the selected player from the database
     offers = Offer.objects.filter(player=selectedPlayer)
+    # print("made it here 2")
 
     # Extract the offer values and corresponding team names from the queryset
     offer_values = [float(offer.offer) for offer in offers]  # Convert to float
     team_names = [offer.team_name for offer in offers]
+    # print("made it here 3")
 
     # Apply a weight to each offer value to create a weighted random selection
     # Make sure to use consistent data types for calculations (e.g., float)
     total_offer_value = sum(offer_values)
     weights = [offer_value / total_offer_value for offer_value in offer_values]
+    # print("made it here 5")
 
     # Use weighted random selection to determine the winnerTeam
     winner_team = random.choices(team_names, weights=weights)[0]
+    # print("made it here 6")
+
+    # Find the index of the winning team in the team_names list
+    winner_team_index = team_names.index(winner_team)
 
     # Set the player's salary offer to the player
-    selectedPlayer.salary_offer = total_offer_value  # Update with the total offer value
+    selectedPlayer.salary = offer_values[winner_team_index]
+
     # Set the winning team's ID to the player
-    selectedPlayer.winning_team_id = winner_team  # Update with the ID of the winning team
+    selectedPlayer.team_id = winner_team  # Update with the ID of the winning team
+    # print("made it here 7")
 
     # Save the updated selectedPlayer object to the database
     selectedPlayer.save()
 
     # You can now access the player's salary offer and the winning team's ID
-    print("Player's Salary Offer:", selectedPlayer.salary_offer)
-    print("Winning Team's ID:", selectedPlayer.winning_team_id)
+    print("Player's Salary Offer:", selectedPlayer.salary)
+    print("Winning Team's ID:", selectedPlayer.team_id)
 
     context = {
         'player': selectedPlayer,
