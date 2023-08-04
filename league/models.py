@@ -10,6 +10,10 @@ class Team(models.Model):
     sixTeams = models.IntegerField(default=0)
     fourTeams = models.IntegerField(default=0)
 
+class TeamSalary(models.Model):
+     team = models.ForeignKey(Team,on_delete=models.CASCADE)
+     total_salary = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
 
 
 class Player(models.Model):

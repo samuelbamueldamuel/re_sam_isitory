@@ -47,7 +47,33 @@
 
 
 
+<h1>Team Details</h1>
 
+    {% if teams %}
+        {% for team in teams %}
+            <h2>{{ team.name }}</h2>
+            <p>City: {{ team.city }}</p>
+
+            {% salaryCount team.t_id %}
+
+            {% with teamSalary=team.teamsalary_set.first %}
+                {% if teamSalary %}
+                    <p>Total Salary (from TeamSalary model): ${{ teamSalary.total_salary }}</p>
+                {% else %}
+                    <p>No salary data available for this team in the TeamSalary model.</p>
+                {% endif %}
+            {% endwith %}
+
+            <h3>Players</h3>
+            <ul>
+                {% for player in players %}
+                    <li>{{ player.name }} - ${{ player.salary }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% else %}
+        <p>No teams found.</p>
+    {% endif %}
 
 
 

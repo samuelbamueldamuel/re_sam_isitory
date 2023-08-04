@@ -13,7 +13,7 @@
         {% include 'sidebar.html' %}
         
         <td colspan="2"; class="header">
-            TeamCity TeamName
+            <h1>{{ team.city }} {{ team.name }}  </h1>
         </td>
     </tr>
 
@@ -45,11 +45,11 @@
                     <th> Money Left </th>
                     <th> Total Spendings </th>
                 </tr>
+                {% load playersCount salaryCount %}
                 <tr>
                     <td></td>
                     <td></td>
-                    <td>{{totalSalary}}</td>
-                
+                    <td>{% salaryCount team.t_id %}</td>
                 </tr>
             </table>
         </td>

@@ -34,6 +34,7 @@
                     <th>Salary</th>
                 </tr>
                 {% for player in players %}
+                {% load playersCount salaryCount %}
                 <tr>
                     <td><a href="{% url 'playerPage' id=player.id %}">{{player.first_name}} {{player.last_name}}</a></td>
                     <td>{{player.pos}}</td>
@@ -46,9 +47,11 @@
                     <td>{{player.defense}}</td>
                     <td></td>
                     <td>{{player.salary}}</td>
+                    <td>{% salaryCount team.t_id %}</td>
                 </tr>
                 {% endfor %}
         </td>
+        
     </tr>
 </table>
 </div>

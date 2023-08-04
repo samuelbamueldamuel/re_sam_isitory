@@ -101,7 +101,7 @@ def leagueSalary(request):
         
         
         context[playerKey] = count
-    print(context['LASPlayers'])
+
         
     
     return render(request, 'leagueSalary.html', context)
@@ -113,21 +113,25 @@ def testView(request):
     return render(request, 'test.html', context)
 
 def salaryBreakdownL(request, t_id):
-    team = Team.objects.filter(t_id = t_id).first()
-    
-    players = Player.objects.filter(team_id = team.t_id)
-    
+    team = Team.objects.filter(t_id=t_id).first()
+
+    players = Player.objects.filter(team_id=team.t_id)
+
     totalSalary = 0
+
     for player in players:
-        totalSalary = totalSalary + player.salary
-        
-    
+        totalSalary += player.salary
+
+    # Calculate the total salary and save it to the team object
+    team.team_salary = totalSalary
+    team.save()
+
     context = {
         'team': team,
         'players': players,
         'totalSalary': totalSalary,
     }
-    
+
     return render(request, 'salaryBreakdown.html', context)
 
 

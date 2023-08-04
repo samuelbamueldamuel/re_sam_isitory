@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from ..scripts.gen_players import birth
 from ..scripts.startup_draft import rounds, draft, printTest
 from ..scripts.makeUser import assignUser
-from ..models import Player, Team, Offer
+from ..models import Player, Team, Offer, TeamSalary
 from ..scripts.delete_players import deletePlayers
 from ..scripts.assignSalary import main
 from ..scripts.sched import createGames
@@ -170,14 +170,16 @@ def cpuOffer(request, id):
     if not existing_offers.exists():
         # If offers don't exist in the database, generate new offers and save them
         other_teams = Team.objects.exclude(t_id=user_team_id)
-
         offers = []
         for team in other_teams:
-            offer = {
-                'team_name': team.t_id,
-                'offer': getSalary(selectedPlayer.value),
-            }
-            offers.append(offer)
+            team_salary = TeamSalary.objects.get(team=team)
+            if team_salary.total_salary <= 10:  # Check if team's salary is below or equal to 100
+                offer = {
+                    'team_name': team.t_id,
+                    'offer': getSalary(selectedPlayer.value),
+                    'team_salary': team_salary.total_salary,  # Pass the total_salary value to the offer
+                }
+                offers.append(offer)
 
         # Save the generated offers to the database
         for offer_data in offers:
@@ -191,11 +193,9 @@ def cpuOffer(request, id):
             {'team_name': offer.team_name, 'offer': offer.offer}
             for offer in existing_offers
         ]
-    
-    # trying to print offer from specific team
-    print(Offer.objects.filter(player_id='179',team_name = 'CTD'))
-    print("OFFERS...")
-    # print(offers)
+
+    # Print the offer from a specific team
+    print(Offer.objects.filter(player_id=id, team_name='CTD').first())
 
     context = {
         'userTeam': userTeam,
@@ -218,27 +218,33 @@ def userOffer(request, id):
 
             # Get the user's team to create a new offer from the user's team
             user_team = Team.objects.filter(userTeam=True).first()
-
-            if not existing_offers.exists():
-                # If offers don't exist in the database, create a new offer with user input
-                offer = Offer.objects.create(
-                    team_name=user_team.t_id,  # Replace with the appropriate team name from the user's team
-                    offer=input_offer,
-                    player=selectedPlayer,
-                )
-            else:
-                # If offers exist in the database, update the existing offer from the user's team
-                user_team_offer = existing_offers.filter(team_name=user_team.t_id).first()
-                if user_team_offer:
-                    user_team_offer.offer = input_offer
-                    user_team_offer.save()
-                else:
-                    # If the user's team does not have an existing offer, create a new one
+            
+            # Check the user team's salary before proceeding with the offer
+            user_team_salary = TeamSalary.objects.get(team=user_team).total_salary
+            if user_team_salary <= 10:
+                if not existing_offers.exists():
+                    # If offers don't exist in the database, create a new offer with user input
                     offer = Offer.objects.create(
-                        team_name=user_team.t_id,  # Replace with the appropriate team name from the user's team
+                        team_name=user_team.t_id,
                         offer=input_offer,
                         player=selectedPlayer,
                     )
+                else:
+                    # If offers exist in the database, update the existing offer from the user's team
+                    user_team_offer = existing_offers.filter(team_name=user_team.t_id).first()
+                    if user_team_offer:
+                        user_team_offer.offer = input_offer
+                        user_team_offer.save()
+                    else:
+                        # If the user's team does not have an existing offer, create a new one
+                        offer = Offer.objects.create(
+                            team_name=user_team.t_id,
+                            offer=input_offer,
+                            player=selectedPlayer,
+                        )
+            else:
+                # If user team's salary is above 100, display an error message to the user
+                print("Damn you're broke! Your team's salary is already above 100.")
 
     # Retrieve the updated offers for the selected player
     updated_offers = Offer.objects.filter(player=selectedPlayer)
