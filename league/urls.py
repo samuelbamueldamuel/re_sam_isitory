@@ -29,4 +29,5 @@ urlpatterns = [
     path('leagueGames/<str:week>', UserViews.leagueGames, name='leagueGames'),
     path('leagueGame', UserViews.leagueGame, name='leagueGame'),
     path('simSeason', AdminViews.simSeason, name='simSeason'),
+    path('standings', UserViews.standings, name='standings'),
 ]
