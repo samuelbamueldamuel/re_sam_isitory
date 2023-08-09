@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from ..scripts.gen_players import birth
 from ..scripts.startup_draft import rounds, draft, printTest
 from ..scripts.makeUser import assignUser
-from ..models import Player, Team, Offer
+from ..models import Player, Team, Offer, Game, Offer
 from ..scripts.delete_players import deletePlayers
 from ..scripts.assignSalary import main
 from ..scripts.sched import createGames
