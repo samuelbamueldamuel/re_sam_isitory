@@ -46,7 +46,7 @@ def get_fname():
     # else:
     #     fname = response['name'].split()[1]
 
-    num = random.randint(1, 1000)
+    num = random.randint(1, 50)
     obj = FName.objects.values('firstName').filter(id=num).first()
     
     
@@ -67,7 +67,7 @@ def get_lname():
     # else:
     #     lname = response['name'].split()[1]
 
-    num = random.randint(1, 1000)
+    num = random.randint(1, 50)
     obj = LName.objects.values('lastName').filter(id=num).first()
     
     

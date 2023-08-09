@@ -7,8 +7,7 @@ class Team(models.Model):
     conference = models.CharField(max_length=4, null=True)
     division = models.CharField(max_length=10, null=True)
     userTeam = models.BooleanField(default=False)
-    sixTeams = models.IntegerField(default=0)
-    fourTeams = models.IntegerField(default=0)
+
 
 
 
@@ -89,6 +88,17 @@ class Game(models.Model):
 
     
     week = models.IntegerField()
+
+    winner = models.ForeignKey(Team, related_name='winner', null=True, on_delete=models.CASCADE)
+    loser = models.ForeignKey(Team, related_name='loser', null=True, on_delete=models.CASCADE)
+
+
+class Record(models.Model):
+    team = models.ForeignKey(Team, related_name='team', null=False, on_delete=models.CASCADE)
+    wins = models.IntegerField(default=0)
+    losses = models.IntegerField(default=0)
+
+
 
 
 # Create your models here.

@@ -37,5 +37,7 @@ urlpatterns = [
     path('makeSched', AdminViews.makeSched, name='makeSched'),
     path('teamGames', UserViews.teamGames, name='teamGames'),
     path('leagueGames/<str:week>', UserViews.leagueGames, name='leagueGames'),
-    path('leagueGame', UserViews.leagueGame, name='leagueGame')
+    path('leagueGame', UserViews.leagueGame, name='leagueGame'),
+    path('simSeason', AdminViews.simSeason, name='simSeason'),
+    path('standings', UserViews.standings, name='standings'),
 ]

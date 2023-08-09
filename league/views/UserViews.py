@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from ..models import Team, Player, Game
+from ..models import Team, Player, Game, Record
 from ..scripts.stage import stage
 from django.http import HttpResponse
 from django.db.models import Q
@@ -255,5 +255,29 @@ def leagueGame(request):
     
     return render(request, 'leagueGames.html', context)
 
+def standings(request):
+    west = Team.objects.filter(conference='west')
+    east = Team.objects.filter(conference='east')
+    print(west)
+
+    westRecord = []
+    eastRecord = []
+
+    for team in west:
+        rec = Record.objects.filter(team=team).first()
+        westRecord.append(rec)
+    for team in east:
+        rec = Record.objects.filter(team=team).first()
+        eastRecord.append(rec)
+
+    westRecord.order_by()
+
+    context = {
+        'west': west,
+        'east': east,
+        'westRecord': westRecord,
+        'eastRecord': eastRecord,
+    }
+    return render(request, 'standings.html', context)
 
 

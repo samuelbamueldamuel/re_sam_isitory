@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tablestyle.css' %}">
+
+</head>
+<body>
+<div class="table-wrapper">
+
+<table class="templatetable">
+    <tr>
+        {% include 'sidebar.html' %}
+        
+        <td colspan="2"; class="header">
+            TeamCity TeamName
+        </td>
+    </tr>
+
+    <tr>
+        <td class="main-body">
+            <table>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <th>Western Conference</th>
+                            </tr>
+            
+                            <tr>
+                                <th>Team Name</th>
+                                <th>Wins</th>
+                                <th>Losses</th>
+                            </tr>
+            
+                            {% for team in westRecord %}
+            
+                            <tr>
+                                <td>{{team.team.name}}</td>
+                                <td>{{team.wins}}</td>
+                                <td>{{team.losses}} </td>
+            
+                            </tr>
+            
+                            {% endfor %}
+                        </table>                   
+                    </td>
+
+                    <td>
+                        <table>
+                            <tr>
+                                <th>Eastern Conference</th>
+                            </tr>
+            
+                            <tr>
+                                <th>Team Name</th>
+                                <th>Wins</th>
+                                <th>Losses</th>
+                            </tr>
+            
+                            {% for team in eastRecord %}
+            
+                            <tr>
+                                <td>{{team.team.name}}</td>
+                                <td>{{team.wins}}</td>
+                                <td>{{team.losses}}</td>
+            
+                            </tr>
+            
+                            {% endfor %}
+                        </table>                    
+                    </td>
+                </tr>
+            </table>
+
+
+            
+        </td>
+    </tr>
+</table>
+</div>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

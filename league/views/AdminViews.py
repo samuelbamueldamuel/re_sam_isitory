@@ -11,6 +11,7 @@ from ..scripts.assignSalary import getSalary
 import random
 
 
+from ..scripts.engine import eng as engine
 import time
 
 
@@ -304,4 +305,12 @@ def makeSched(request):
     createGames()
     
     return render(request, 'home.html')
+
+def simSeason(request):
+    games = Game.objects.all()
+
+    for game in games:
+        engine(game.id)
+    return render(request, 'home.html' )
+
 # Create your views here.
