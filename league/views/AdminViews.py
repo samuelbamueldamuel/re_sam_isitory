@@ -3,10 +3,11 @@ from django.http import HttpResponse
 from ..scripts.gen_players import birth
 from ..scripts.startup_draft import rounds, draft, printTest
 from ..scripts.makeUser import assignUser
-from ..models import Player, Team
+from ..models import Player, Team, Game, Record
 from ..scripts.delete_players import deletePlayers
 from ..scripts.assignSalary import main
 from ..scripts.sched import createGames
+from ..scripts.engine import eng as engine
 import time
 
 
@@ -141,4 +142,12 @@ def makeSched(request):
     createGames()
     
     return render(request, 'home.html')
+
+def simSeason(request):
+    games = Game.objects.all()
+
+    for game in games:
+        engine(game.id)
+    return render(request, 'home.html' )
+
 # Create your views here.
