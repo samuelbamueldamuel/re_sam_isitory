@@ -47,17 +47,17 @@ class Command(BaseCommand):
         print(word)
         f = 1
         l = 1
-        # for i in range(num):
-        #     FName = self.getFName()
-        #     self.pushFName(FName)
-        #     print(f)
-        #     f += 1
-            
         for i in range(num):
-            LName = self.getLName()
-            self.pushLName(LName)
-            print(l)
-            l += 1
+            FName = self.getFName()
+            self.pushFName(FName)
+            print(f)
+            f += 1
+            
+        # for i in range(num):
+        #     LName = self.getLName()
+        #     self.pushLName(LName)
+        #     print(l)
+        #     l += 1
         
         
 

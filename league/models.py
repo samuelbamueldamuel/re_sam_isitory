@@ -91,4 +91,6 @@ class Record(models.Model):
     losses = models.IntegerField(default=0)
 
 
+
+
 # Create your models here.

@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandParser
-from league.models import Team, Game, Player
+from league.models import Team, Game, Player, Record
 from django.db.models import Q
 import random
 import sys
@@ -396,6 +396,14 @@ def createGames():
     sys.setrecursionlimit(30000)
     #TODO backtrack 
     Game.objects.all().delete()
+    records = Record.objects.all()
+
+    for record in records:
+        record.wins = 0
+        record.losses = 0
+        record.save()
+
+
     popDict()
     teams = Team.objects.filter(~Q(t_id='FAA'))
     schedConf()
