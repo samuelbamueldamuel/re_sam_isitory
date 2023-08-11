@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+<link rel="stylesheet" href="{% static 'tablestyle.css' %}">
+
+</head>
+<body>
+<div class="table-wrapper">
+
+<table class="templatetable">
+    <tr>
+        {% include 'sidebar.html' %}
+        
+        <td colspan="2"; class="header">
+            {{team.city}} {{team.name}}                                             Stage: {{stage}}
+        </td>
+    </tr>
+
+    <tr>
+        <td class="main-body">
+            <a href="{% url 'makeSched' %}">
+                <button>create sched</button>
+            </a>
+
+            <a href="{% url 'simSeason' %}">
+                <button>sim season</button>
+            </a>
+        </td>
+    </tr>
+</table>
+</div>
