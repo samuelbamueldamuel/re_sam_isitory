@@ -256,21 +256,21 @@ def leagueGame(request):
     return render(request, 'leagueGames.html', context)
 
 def standings(request):
-    west = Team.objects.filter(conference='west')
-    east = Team.objects.filter(conference='east')
+    west = Team.objects.filter(conference='west').order_by('-record__wins')
+    east = Team.objects.filter(conference='east').order_by('-record__wins')
     print(west)
 
     westRecord = []
     eastRecord = []
 
     for team in west:
-        rec = Record.objects.filter(team=team).first()
+        rec = Record.objects.filter(team=team).order_by('wins').first()
         westRecord.append(rec)
     for team in east:
-        rec = Record.objects.filter(team=team).first()
+        rec = Record.objects.filter(team=team).order_by('wins').first()
         eastRecord.append(rec)
 
-    westRecord.order_by()
+    
 
     context = {
         'west': west,

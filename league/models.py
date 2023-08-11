@@ -94,9 +94,20 @@ class Game(models.Model):
 
 
 class Record(models.Model):
-    team = models.ForeignKey(Team, related_name='team', null=False, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, related_name='record', null=False, on_delete=models.CASCADE)
     wins = models.IntegerField(default=0)
     losses = models.IntegerField(default=0)
+
+class Time(models.Model):
+    stages = (
+        ('reg', 'Regular Season'),
+        ('playoffs', 'Playoffs'),
+        ('draft', 'Draft'),
+        ('free', 'Free Agency'),
+    )
+
+    stage = models.CharField(max_length=15, choices=stages, default='reg')
+    week = models.IntegerField()
 
 
 

@@ -58,11 +58,11 @@ class Command(BaseCommand):
             self.pushLName(LName)
             print(l)
             l += 1
-        for i in range(num):
-            FName = self.getFName()
-            self.pushFName(FName)
-            print(f)
-            f += 1
+        # for i in range(num):
+        #     FName = self.getFName()
+        #     self.pushFName(FName)
+        #     print(f)
+        #     f += 1
             
         # for i in range(num):
         #     LName = self.getLName()

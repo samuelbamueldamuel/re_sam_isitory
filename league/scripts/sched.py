@@ -311,6 +311,7 @@ def getOpp( team, teams):
         oppID = random.choice(valid_opponents)
     except IndexError:
         getTeamList()
+        print("got")
     opp = Team.objects.filter(t_id=oppID).first()
     return opp
             
