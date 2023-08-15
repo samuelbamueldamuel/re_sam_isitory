@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from ..scripts.gen_players import birth
 from ..scripts.startup_draft import rounds, draft, printTest
 from ..scripts.makeUser import assignUser
-from ..models import Player, Team, Offer, Game, Offer, PlayoffGame, PlayoffTeam
+from ..models import Player, Team, Offer, Game, Offer, PlayoffGame, PlayoffTeam, Draft
 from ..scripts.delete_players import deletePlayers
 from ..scripts.assignSalary import main
 from ..scripts.sched import createGames
@@ -418,5 +418,11 @@ def simFinals(request):
 
 def draftOrder(request):
     order()
-    return render(request, 'winner.html')
+
+    draftPicks = Draft.objects.all()
+
+    context = {
+        'draftPicks': draftPicks,
+    }
+    return render(request, 'draftOrder.html', context)
 # Create your views here.

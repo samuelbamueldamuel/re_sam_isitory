@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tablestyle.css' %}">
+
+</head>
+<body>
+<div class="table-wrapper">
+
+<table class="templatetable">
+    <tr>
+        {% include 'sidebar.html' %}
+        
+        <td colspan="2"; class="header">
+            TeamCity TeamName
+        </td>
+    </tr>
+
+    <tr>
+        <td class="main-body">
+            <table>
+                <tr>
+                    <td>
+                        Pick number
+                    </td>
+
+                    <td>
+                        Team
+                    </td>
+                </tr>
+
+                {% for draftPick in draftPicks %}
+                <tr>
+                    <td>{{draftPick.pick}}</td>
+                    <td>{{draftPick.team.name}}</td>
+                </tr>
+                {% endfor %}
+
+            </table>
+        </td>
+    </tr>
+</table>
+</div>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

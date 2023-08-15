@@ -46,5 +46,6 @@ urlpatterns = [
     path('simSemis', AdminViews.simSemis, name='simSemis'),
     path('simFinals', AdminViews.simFinals, name='simFinals'),
     path('playoffs', UserViews.playoffs, name='playoffs'),
-    path('draftOrder', AdminViews.draftOrder, name='draftOrder')
+    path('draftOrder', AdminViews.draftOrder, name='draftOrder'),
+    
 ]
