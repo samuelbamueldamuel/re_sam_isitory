@@ -88,7 +88,13 @@
             {% endfor %}
         </tbody>
     </table>
-
+    <tr>
+        {% include 'sidebar.html' %}
+        
+        <td colspan="2"; class="header">
+            {{team.city}} {{team.name}}
+        </td>
+    </tr>
 </body>
 
 </html>

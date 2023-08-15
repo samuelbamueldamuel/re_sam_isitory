@@ -220,13 +220,6 @@ def goToTrade(request):
     return render(request, 'trade.html', context)
 
 
-
-
-
-
-
-
-
 def teamGames(request):
     user = Team.objects.filter(userTeam=True).first()
     games = Game.objects.filter(Q(awayTeam=user) | Q(homeTeam=user))

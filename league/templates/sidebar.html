@@ -1,10 +1,51 @@
 <td rowspan="2" class="sidebar">
-    <a href="{% url 'home' %}">Home</a>
-    <a href="{% url 'teamRoster' %}">Team Roster</a>
-    <a href="{% url 'teams' %}">Teams</a>
-    <a href="{% url 'goToTrade' %}">Trade</a>
+    <div>
+        <!-- Home button -->
+        <a href="{% url 'home' %}">
+            <button type="button">Home</button>
+        </a>
+    </div>
+    
+    <div>
+        <!-- Team Roster button -->
+        <a href="{% url 'teamRoster' %}">
+            <button type="button">Team Roster</button>
+        </a>
+    </div>
+    
+    <div>
+        <!-- Teams button -->
+        <a href="{% url 'teams' %}">
+            <button type="button">Teams</button>
+        </a>
+    </div>
+    
+    <div>
+        <!-- Trade button -->
+        <a href="{% url 'goToTrade' %}">
+            <button type="button">Trade</button>
+        </a>
+    </div>
+    
+    <div>
+        <!-- Team Games button -->
+        <a href="{% url 'teamGames' %}">
+            <button type="button">Team Games</button>
+        </a>
+    </div>
+    
+    <div>
+        <!-- League Games button -->
+        <a href="{% url 'leagueGames' week=1 %}">
+            <button type="button">League Games</button>
+        </a>
+    </div>
 
-    <a href="{% url 'teamGames' %}">Team Games</a>
-    <a href="{% url 'leagueGames' week=1 %}">League Games</a>
-
+    <div>
+        <!-- Trade button -->
+        <a href="{% url 'goToFA' %}">
+            <button type="button">Free Agency</button>
+        </a>
+    </div>
+    
 </td>
