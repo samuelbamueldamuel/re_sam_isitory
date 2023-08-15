@@ -50,6 +50,9 @@ def main(round):
         winner, loser = simGame(game)
         loserTeam = PlayoffTeam.objects.filter(team=loser).first()
         print(loserTeam)
+        game.winner = winner
+        game.loser = loser
+        game.save()
         loserTeam.delete()
     return winner
         

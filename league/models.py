@@ -94,7 +94,7 @@ class Game(models.Model):
 
 
 class Record(models.Model):
-    team = models.ForeignKey(Team, related_name='record', null=False, on_delete=models.CASCADE)
+    team = models.OneToOneField(Team, related_name='record', null=False, on_delete=models.CASCADE)
     wins = models.IntegerField(default=0)
     losses = models.IntegerField(default=0)
 
@@ -130,6 +130,10 @@ class PlayoffTeam(models.Model):
     seed = models.IntegerField()
     team = models.ForeignKey(Team, related_name='playoffTeam', null=True, on_delete=models.CASCADE)
     conference = models.CharField(max_length=5, null=True)
+class Draft(models.Model):
+    pick = models.IntegerField()
+    team = models.ForeignKey(Team, related_name='draft', on_delete=models.CASCADE)
+
 
 
 

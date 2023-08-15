@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from ..models import Team, Player, Game, Record
+from ..models import Team, Player, Game, Record, PlayoffGame, PlayoffTeam
 from ..scripts.stage import stage
 from django.http import HttpResponse
 from django.db.models import Q
@@ -279,5 +279,30 @@ def standings(request):
         'eastRecord': eastRecord,
     }
     return render(request, 'standings.html', context)
+
+def playoffs(request):
+    eastFirst = PlayoffGame.objects.filter(Q(conference='east') & Q(round='first'))
+    westFirst = PlayoffGame.objects.filter(Q(conference='west') & Q(round='first'))
+
+    eastSecond = PlayoffGame.objects.filter(Q(conference='east') & Q(round='second'))
+    westSecond = PlayoffGame.objects.filter(Q(conference='west') & Q(round='second'))
+
+    eastSemis = PlayoffGame.objects.filter(Q(conference='east') & Q(round='semis'))
+    westSemis = PlayoffGame.objects.filter(Q(conference='west') & Q(round='semis'))
+    
+
+    finals = PlayoffGame.objects.filter(Q(round='finals')).first()
+
+
+    context = {
+        'westFirst': westFirst,
+        'eastFirst': eastFirst,
+        'eastSecond': eastSecond,
+        'westSecond': westSecond,
+        'eastSemis': eastSemis,
+        'westSemis': westSemis,
+        'finals': finals,
+    }
+    return render(request, 'playoffTable.html', context)
 
 

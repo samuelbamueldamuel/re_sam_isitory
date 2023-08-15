@@ -12,6 +12,7 @@ from ..scripts.playInit import getTeams as playoffStart
 import random
 from django.db.models import Q
 from ..scripts.playoffEngine import main as simFirst
+from ..scripts.draftOrder import order
 
 
 from ..scripts.engine import eng as engine
@@ -414,4 +415,8 @@ def simFinals(request):
     print(winner)
     context = {'winner': winner}
     return render(request, 'winner.html', context)
+
+def draftOrder(request):
+    order()
+    return render(request, 'winner.html')
 # Create your views here.
