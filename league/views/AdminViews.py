@@ -3,12 +3,15 @@ from django.http import HttpResponse
 from ..scripts.gen_players import birth
 from ..scripts.startup_draft import rounds, draft, printTest
 from ..scripts.makeUser import assignUser
-from ..models import Player, Team, Offer, Game, Offer
+from ..models import Player, Team, Offer, Game, Offer, PlayoffGame, PlayoffTeam
 from ..scripts.delete_players import deletePlayers
 from ..scripts.assignSalary import main
 from ..scripts.sched import createGames
 from ..scripts.assignSalary import getSalary
+from ..scripts.playInit import getTeams as playoffStart
 import random
+from django.db.models import Q
+from ..scripts.playoffEngine import main as simFirst
 
 
 from ..scripts.engine import eng as engine
@@ -311,6 +314,104 @@ def simSeason(request):
 
     for game in games:
         engine(game.id)
-    return render(request, 'home.html' )
+    return render(request, 'homeSimmed.html' )
 
+def playInit(request):
+    PlayoffGame.objects.all().delete()
+    PlayoffTeam.objects.all().delete()
+    westGames, eastGames = playoffStart('first')
+
+    eastFirst = PlayoffGame.objects.filter(Q(conference='east') & Q(round='first'))
+    westFirst = PlayoffGame.objects.filter(Q(conference='west') & Q(round='first'))
+    print(westFirst)
+    print(eastFirst)
+    context = {
+        'westFirst': westFirst,
+        'eastFirst': eastFirst,
+    }
+
+    return render(request, 'playoffTable.html', context)
+
+def simFirstRound(request):
+    simFirst('first')
+    playoffStart('second')
+
+    eastFirst = PlayoffGame.objects.filter(Q(conference='east') & Q(round='first'))
+    westFirst = PlayoffGame.objects.filter(Q(conference='west') & Q(round='first'))
+
+    eastSecond = PlayoffGame.objects.filter(Q(conference='east') & Q(round='second'))
+    westSecond = PlayoffGame.objects.filter(Q(conference='west') & Q(round='second'))
+
+
+    context = {
+        'westFirst': westFirst,
+        'eastFirst': eastFirst,
+        'eastSecond': eastSecond,
+        'westSecond': westSecond,
+    }
+
+
+    return render(request, 'playoffTable.html', context)
+
+def simSecondRound(request):
+    simFirst('second')
+    playoffStart('semis')
+
+
+    eastFirst = PlayoffGame.objects.filter(Q(conference='east') & Q(round='first'))
+    westFirst = PlayoffGame.objects.filter(Q(conference='west') & Q(round='first'))
+
+    eastSecond = PlayoffGame.objects.filter(Q(conference='east') & Q(round='second'))
+    westSecond = PlayoffGame.objects.filter(Q(conference='west') & Q(round='second'))
+
+    eastSemis = PlayoffGame.objects.filter(Q(conference='east') & Q(round='semis'))
+    westSemis = PlayoffGame.objects.filter(Q(conference='west') & Q(round='semis'))
+
+
+
+    context = {
+        'westFirst': westFirst,
+        'eastFirst': eastFirst,
+        'eastSecond': eastSecond,
+        'westSecond': westSecond,
+        'eastSemis': eastSemis,
+        'westSemis': westSemis,
+    }
+
+    return render(request, 'playoffTable.html', context)
+
+def simSemis(request):
+    simFirst('semis')
+    playoffStart('finals')
+
+    eastFirst = PlayoffGame.objects.filter(Q(conference='east') & Q(round='first'))
+    westFirst = PlayoffGame.objects.filter(Q(conference='west') & Q(round='first'))
+
+    eastSecond = PlayoffGame.objects.filter(Q(conference='east') & Q(round='second'))
+    westSecond = PlayoffGame.objects.filter(Q(conference='west') & Q(round='second'))
+
+    eastSemis = PlayoffGame.objects.filter(Q(conference='east') & Q(round='semis'))
+    westSemis = PlayoffGame.objects.filter(Q(conference='west') & Q(round='semis'))
+    
+
+    finals = PlayoffGame.objects.filter(Q(round='finals')).first()
+
+
+    context = {
+        'westFirst': westFirst,
+        'eastFirst': eastFirst,
+        'eastSecond': eastSecond,
+        'westSecond': westSecond,
+        'eastSemis': eastSemis,
+        'westSemis': westSemis,
+        'finals': finals,
+    }
+
+    return render(request, 'playoffTable.html', context)
+
+def simFinals(request):
+    winner = simFirst('finals')
+    print(winner)
+    context = {'winner': winner}
+    return render(request, 'winner.html', context)
 # Create your views here.

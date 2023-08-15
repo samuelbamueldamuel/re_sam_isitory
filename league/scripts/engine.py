@@ -26,7 +26,7 @@ def getWinner(teamA, teamB):
 
     winner = random.choices(teams, weights=[Aovr, Bovr])
     winner = winner[0]
-    print("teams: ", teams)
+    # print("teams: ", teams)
     # winnerIndex = teams.index(winner)
     # loser_index = 1 - winnerIndex
 

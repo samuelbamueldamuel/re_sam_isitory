@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    .box{
+        border: 5px solid black;
+        width: 100px;
+        height: 75px;
+    }
+    .intBox{
+        border: 1px solid black;
+        height: 50%;
+
+    }
+</style>
+
+</head>
+<body>
+<table>
+    <tr>
+        <td>
+            <div class="box">
+                <div class="intBox">
+                    {{westFirst.0.homeTeam.name}}
+                    
+                </div>
+        
+                <div class="intBox">
+                    {{westFirst.0.awayTeam.name}}
+                </div>
+            </div>
+        </td>
+
+        <td>
+            <div class="box">
+                <div class="intBox">
+                    {{westFirst.1.homeTeam.name}}
+
+                </div>
+        
+                <div class="intBox">
+                    {{westFirst.1.awayTeam.name}}
+                </div>
+            </div>
+        </td>
+
+        <td>
+            <div class="box">
+                <div class="intBox">
+                    {{westFirst.2.homeTeam.name}}
+                </div>
+        
+                <div class="intBox">
+                    {{westFirst.2.awayTeam.name}}
+                </div>
+            </div>
+        </td>
+
+        <td>
+            <div class="box">
+                <div class="intBox">
+                    {{westFirst.3.homeTeam.name}}
+                </div>
+        
+                <div class="intBox">
+                    {{westFirst.3.awayTeam.name}}
+                </div>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+
+        <td>
+
+        </td>
+
+
+        <td>
+            <div class="box">
+                <div class="intBox">
+                    {{westSecond.0.homeTeam.name}}
+                </div>
+        
+                <div class="intBox">
+                    {{westSecond.0.awayTeam.name}}
+                </div>
+            </div>
+        </td>
+
+        <td>
+            <div class="box">
+                <div class="intBox">
+                    {{westSecond.1.homeTeam.name}}
+                </div>
+        
+                <div class="intBox">
+                    {{westSecond.1.awayTeam.name}}
+                </div>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+
+        </td>
+
+        <td>
+            <div class="box">
+                <div class="intBox">
+                    {{westSemis.0.homeTeam.name}}
+                </div>
+        
+                <div class="intBox">
+                    {{westSemis.0.awayTeam.name}}
+                </div>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+
+        </td>
+
+        <td>
+            <div class="box">
+                <div class="intBox">
+                    {{finals.homeTeam.name}}
+                </div>
+        
+                <div class="intBox">
+                    {{finals.awayTeam.name}}
+                </div>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+
+        </td>
+
+        <td>
+            <div class="box">
+                <div class="intBox">
+                    {{eastSemis.0.homeTeam.name}}
+                </div>
+        
+                <div class="intBox">
+                    {{eastSemis.0.awayTeam.name}}
+                </div>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+
+        <td>
+
+        </td>
+        <td>
+            <div class="box">
+                <div class="intBox">
+                    {{eastSecond.0.homeTeam.name}}
+                </div>
+        
+                <div class="intBox">
+                    {{eastSecond.0.awayTeam.name}}
+                </div>
+            </div>
+        </td>
+
+        <td>
+            <div class="box">
+                <div class="intBox">
+                    {{eastSecond.1.homeTeam.name}}
+                </div>
+        
+                <div class="intBox">
+                    {{eastSecond.1.awayTeam.name}}
+                </div>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+
+        <td>
+            <div class="box">
+                <div class="intBox">
+                    {{eastFirst.0.homeTeam.name}}
+                </div>
+        
+                <div class="intBox">
+                    {{eastFirst.0.awayTeam.name}}
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="box">
+                <div class="intBox">
+                    {{eastFirst.1.homeTeam.name}}
+                </div>
+        
+                <div class="intBox">
+                    {{eastFirst.1.awayTeam.name}}
+                </div>
+            </div>
+        </td>
+
+
+
+        <td>
+            <div class="box">
+                <div class="intBox">
+                    {{eastFirst.2.homeTeam.name}}
+                </div>
+        
+                <div class="intBox">
+                    {{eastFirst.2.awayTeam.name}}
+                </div>
+            </div>
+        </td>
+
+        <td>
+            <div class="box">
+                <div class="intBox">
+                    {{eastFirst.3.homeTeam.name}}
+                </div>
+        
+                <div class="intBox">
+                    {{eastFirst.3.awayTeam.name}}
+                </div>
+            </div>
+        </td>
+
+
+    </tr>
+</table>
+
+<a href="{% url 'simFirstRound' %}">
+    <button>advance to 2nd round</button>
+</a> 
+<a href="{% url 'simSecondRound' %}">
+    <button>advance to semis</button>
+</a> 
+<a href="{% url 'simSemis' %}">
+    <button>advance to finals</button>
+</a> 
+<a href="{% url 'simFinals' %}">
+    <button>sim finals</button>
+</a> 
+</body>
+
+</html>

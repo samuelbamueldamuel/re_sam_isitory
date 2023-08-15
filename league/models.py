@@ -109,6 +109,28 @@ class Time(models.Model):
     stage = models.CharField(max_length=15, choices=stages, default='reg')
     week = models.IntegerField()
 
+class PlayoffGame(models.Model):
+    rounds = (
+        ('first', 'First Round'),
+        ('second', 'Second Round'),
+        ('semis', 'Conference Finals'),
+        ('finals', 'Finals'),
+    )
+
+    round = models.CharField(max_length=25, choices=rounds, null=True)
+
+    homeTeam = models.ForeignKey(Team, related_name='playoffHome', null=False, on_delete=models.CASCADE)
+    awayTeam = models.ForeignKey(Team, related_name='playoffAway', null=False, on_delete=models.CASCADE)
+
+    winner = models.ForeignKey(Team, related_name='playoffWinner', null=True, on_delete=models.CASCADE)
+    loser = models.ForeignKey(Team, related_name='playoffLoser', null=True, on_delete=models.CASCADE)
+    conference = models.CharField(max_length=5, null=True)
+
+class PlayoffTeam(models.Model):
+    seed = models.IntegerField()
+    team = models.ForeignKey(Team, related_name='playoffTeam', null=True, on_delete=models.CASCADE)
+    conference = models.CharField(max_length=5, null=True)
+
 
 
 

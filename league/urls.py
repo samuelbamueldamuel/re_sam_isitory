@@ -40,4 +40,9 @@ urlpatterns = [
     path('leagueGame', UserViews.leagueGame, name='leagueGame'),
     path('simSeason', AdminViews.simSeason, name='simSeason'),
     path('standings', UserViews.standings, name='standings'),
+    path('playInit', AdminViews.playInit, name='playInit'),
+    path('simFirstRound', AdminViews.simFirstRound, name='simFirstRound'),
+    path('simSecondRound', AdminViews.simSecondRound, name='simSecondRound'),
+    path('simSemis', AdminViews.simSemis, name='simSemis'),
+    path('simFinals', AdminViews.simFinals, name='simFinals'),
 ]
