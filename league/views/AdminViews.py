@@ -221,7 +221,7 @@ def userOffer(request, id):
             
             # Check the user team's salary before proceeding with the offer
             user_team_salary = TeamSalary.objects.get(team=user_team).total_salary
-            if user_team_salary <= 100:
+            if user_team_salary <= 200:
                 if not existing_offers.exists():
                     # If offers don't exist in the database, create a new offer with user input
                     offer = Offer.objects.create(
