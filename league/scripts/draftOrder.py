@@ -56,35 +56,36 @@ def assignSemis(teams):
 
 def order():
     Draft.objects.all().delete()
-    westTeams = Team.objects.filter(conference='west').order_by('record__wins')
-    eastTeams = Team.objects.filter(conference='east').order_by('record__wins')
+    for _ in range(2):
+        westTeams = Team.objects.filter(conference='west').order_by('record__wins')
+        eastTeams = Team.objects.filter(conference='east').order_by('record__wins')
 
-    westLotto = getLotto(westTeams)
-    eastLotto = getLotto(eastTeams)
+        westLotto = getLotto(westTeams)
+        eastLotto = getLotto(eastTeams)
 
-    westLotto.extend(eastLotto)
-    lottoTeams = westLotto
+        westLotto.extend(eastLotto)
+        lottoTeams = westLotto
 
-    sortedTeams = sorted(lottoTeams, key=lambda team: team.record.wins, reverse=False)
-    assignLotto(sortedTeams)
+        sortedTeams = sorted(lottoTeams, key=lambda team: team.record.wins, reverse=False)
+        assignLotto(sortedTeams)
 
-    firstRound = PlayoffGame.objects.filter(round='first')
-    sortedFirst = getTeams(firstRound)
-    assignFirst(sortedFirst)
+        firstRound = PlayoffGame.objects.filter(round='first')
+        sortedFirst = getTeams(firstRound)
+        assignFirst(sortedFirst)
 
-    secondRound = PlayoffGame.objects.filter(round='second')
-    sortedSecond = getTeams(secondRound)
-    assignSecond(sortedSecond)
+        secondRound = PlayoffGame.objects.filter(round='second')
+        sortedSecond = getTeams(secondRound)
+        assignSecond(sortedSecond)
 
-    semis = PlayoffGame.objects.filter(round='semis')
-    sortedSemis = getTeams(semis)
-    assignSemis(sortedSemis)
+        semis = PlayoffGame.objects.filter(round='semis')
+        sortedSemis = getTeams(semis)
+        assignSemis(sortedSemis)
 
-    finals = PlayoffGame.objects.filter(round='finals').first()
-    finalLoser = Draft(pick=29, team=finals.loser)
-    finalLoser.save()
-    finalWinner = Draft(pick=30, team=finals.winner)
-    finalWinner.save()
+        finals = PlayoffGame.objects.filter(round='finals').first()
+        finalLoser = Draft(pick=29, team=finals.loser)
+        finalLoser.save()
+        finalWinner = Draft(pick=30, team=finals.winner)
+        finalWinner.save()
 
 
     

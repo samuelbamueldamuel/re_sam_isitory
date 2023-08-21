@@ -47,5 +47,6 @@ urlpatterns = [
     path('simFinals', AdminViews.simFinals, name='simFinals'),
     path('playoffs', UserViews.playoffs, name='playoffs'),
     path('draftOrder', AdminViews.draftOrder, name='draftOrder'),
+    path('draft/', AdminViews.draft, name='draft')
     
 ]

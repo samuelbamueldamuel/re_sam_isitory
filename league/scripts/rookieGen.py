@@ -1,7 +1,7 @@
 import random
 from enum import Enum
 from secrets import choice
-from league.models import Player, FName, LName
+from league.models import Player, FName, LName, Team
 import time
 import requests
 
@@ -446,8 +446,10 @@ def birth():
     physicalA = physicalF(speed, strength, vertical)
     ovr = getOverall(three, mid, standShot, moveShot, passAcc, dribble, dot, drive, dunk, layup, backdown, postMove, closeShot, oBoard, dBoard, perDefense, postDefense, intimidation, steal, block, reconition, speed, strength, vertical)
     value = getValue(ovr, age)
+    pros = Team.objects.filter(t_id='PROS').first()
 
     player = Player(
+        team = pros,
         first_name=fName,
         last_name=lName,
 

@@ -13,6 +13,7 @@ import random
 from django.db.models import Q
 from ..scripts.playoffEngine import main as simFirst
 from ..scripts.draftOrder import order
+from ..scripts.rookieGen import birth as rookieBirth
 
 
 from ..scripts.engine import eng as engine
@@ -417,6 +418,7 @@ def simFinals(request):
     return render(request, 'winner.html', context)
 
 def draftOrder(request):
+    Draft.objects.all().delete()
     order()
 
     draftPicks = Draft.objects.all()
@@ -425,4 +427,24 @@ def draftOrder(request):
         'draftPicks': draftPicks,
     }
     return render(request, 'draftOrder.html', context)
+
+def draft(request):
+    Player.objects.filter(team_id='PROS').delete()
+    Draft.objects.all().delete()
+    order()
+
+    for _ in range(60):
+        rookieBirth()
+    
+    prospects = Player.objects.filter(team_id='PROS').order_by("-ovr")
+    print(prospects)
+    picks = Draft.objects.all()
+
+    context = {
+        'prospects': prospects,
+        'picks': picks,
+    }
+
+
+    return render(request, 'draft.html', context)
 # Create your views here.
