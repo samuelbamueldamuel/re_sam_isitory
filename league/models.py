@@ -133,6 +133,8 @@ class PlayoffTeam(models.Model):
 class Draft(models.Model):
     pick = models.IntegerField()
     team = models.ForeignKey(Team, related_name='draft', on_delete=models.CASCADE)
+    player = models.ForeignKey(Player, related_name='pick', null=True, on_delete=models.CASCADE)
+    userPick = models.BooleanField(default=False)
 
 
 

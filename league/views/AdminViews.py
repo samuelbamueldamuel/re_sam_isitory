@@ -437,7 +437,7 @@ def draft(request):
         rookieBirth()
     
     prospects = Player.objects.filter(team_id='PROS').order_by("-ovr")
-    print(prospects)
+    # print(prospects)
     picks = Draft.objects.all()
 
     context = {

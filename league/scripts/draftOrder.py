@@ -51,6 +51,19 @@ def assignSemis(teams):
         pick.save()
         i += 1
 
+def makeUserpick():
+    print("got")
+    picks = Draft.objects.all()
+    userTeam = Team.objects.filter(userTeam=True).first()
+    print("user: ", userTeam)
+    for pick in picks:
+        # print("team: ", pick.team)
+        if pick.team == userTeam:
+            print("true")
+            pick.userPick = True
+            pick.save()
+
+
     
 
 
@@ -86,6 +99,9 @@ def order():
         finalLoser.save()
         finalWinner = Draft(pick=30, team=finals.winner)
         finalWinner.save()
+
+    makeUserpick()
+    
 
 
     

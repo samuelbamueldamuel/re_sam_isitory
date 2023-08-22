@@ -201,10 +201,10 @@ def get_height(pos): # i hate my life why did I do this to myself holy shit WHAT
         ffDig = firstDig(pos)
         
         fDig = int(ffDig[0])
-        print(fDig)
+        # print(fDig)
         flDig = lastDig(pos, fDig)
-        print(flDig)
-        print(pos)
+        # print(flDig)
+        # print(pos)
         if isinstance(flDig, (str, int, float)):       #WTF IS THIS?????????????????? WHO LET ME COOK
             lDig = int(flDig) #might need to be accesses as a list
         elif isinstance(flDig, (list, tuple, dict)):
