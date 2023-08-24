@@ -307,19 +307,29 @@ def playoffs(request):
 
 def onePick(request):
     currentOBJ = CurrentPick.objects.first()
-
+    if(currentOBJ.pick > 60):
+        currentOBJ.pick = 1
+        currentOBJ.save()
     pick = currentOBJ.pick
     draftOBJ = Draft.objects.filter(pick=pick).first()
     prospect = Player.objects.filter(team_id='PROS').order_by('-ovr').first()
-
+    prospect.team_id = draftOBJ.team
+    prospect.save()
     draftOBJ.player = prospect
     draftOBJ.save()
     currentOBJ.pick += 1
+    currentOBJ.save()
 
     draft = Draft.objects.all()
 
+    prospects = Player.objects.filter(team_id='PROS').order_by("-ovr")
+    # print(prospects)
+    picks = Draft.objects.all()
+
     context = {
-        'draft': draft
+        'draft': draft,
+        'prospects': prospects,
+        'picks': picks,
     }
     
 
