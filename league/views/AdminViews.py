@@ -12,7 +12,7 @@ from ..scripts.playInit import getTeams as playoffStart
 import random
 from django.db.models import Q
 from ..scripts.playoffEngine import main as simFirst
-from ..scripts.draftOrder import order
+from ..scripts.betterOrder import order
 from ..scripts.rookieGen import birth as rookieBirth
 
 

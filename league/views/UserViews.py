@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from ..models import Team, Player, Game, Record, PlayoffGame, PlayoffTeam
+from ..models import Team, Player, Game, Record, PlayoffGame, PlayoffTeam, CurrentPick, Draft
 from ..scripts.stage import stage
 from django.http import HttpResponse
 from django.db.models import Q
@@ -305,6 +305,28 @@ def playoffs(request):
     }
     return render(request, 'playoffTable.html', context)
 
+def onePick(request):
+    currentOBJ = CurrentPick.objects.first()
 
+    pick = currentOBJ.pick
+    draftOBJ = Draft.objects.filter(pick=pick).first()
+    prospect = Player.objects.filter(team_id='PROS').order_by('-ovr').first()
+
+    draftOBJ.player = prospect
+    draftOBJ.save()
+    currentOBJ.pick += 1
+
+    draft = Draft.objects.all()
+
+    context = {
+        'draft': draft
+    }
+    
+
+
+
+    return render(request, 'draft.html', context)
+def toUser(request):
+    return render(request, 'draft.html')
 
 

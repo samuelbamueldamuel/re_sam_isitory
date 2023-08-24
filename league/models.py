@@ -135,6 +135,8 @@ class Draft(models.Model):
     team = models.ForeignKey(Team, related_name='draft', on_delete=models.CASCADE)
     player = models.ForeignKey(Player, related_name='pick', null=True, on_delete=models.CASCADE)
     userPick = models.BooleanField(default=False)
+class CurrentPick(models.Model):
+    pick = models.IntegerField()
 
 
 
