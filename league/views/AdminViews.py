@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from ..scripts.gen_players import birth
 from ..scripts.startup_draft import rounds, draft, printTest
 from ..scripts.makeUser import assignUser
-from ..models import Player, Team, Offer, Game, Offer, PlayoffGame, PlayoffTeam, Draft
+from ..models import Player, Team, Offer, Game, Offer, PlayoffGame, PlayoffTeam, Draft, CurrentPick
 from ..scripts.delete_players import deletePlayers
 from ..scripts.assignSalary import main
 from ..scripts.sched import createGames
@@ -431,9 +431,14 @@ def draftOrder(request):
 def draft(request):
     Player.objects.filter(team_id='PROS').delete()
     Draft.objects.all().delete()
+
+    curr = CurrentPick.objects.first()
+
+    curr.pick = 1
+    curr.save()
     order()
 
-    for _ in range(60):
+    for _ in range(100):
         rookieBirth()
     
     prospects = Player.objects.filter(team_id='PROS').order_by("-ovr")

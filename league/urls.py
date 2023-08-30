@@ -50,6 +50,7 @@ urlpatterns = [
     path('draft/', AdminViews.draft, name='draft'),
     path('onePick', UserViews.onePick, name='onePick'),
     path('toUser/', UserViews.toUser, name='toUser'),
+    path('pickPlayer/<str:id>', UserViews.pickPlayer, name='pickPlayer')
     
     
 ]

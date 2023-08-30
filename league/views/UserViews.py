@@ -4,6 +4,7 @@ from ..models import Team, Player, Game, Record, PlayoffGame, PlayoffTeam, Curre
 from ..scripts.stage import stage
 from django.http import HttpResponse
 from django.db.models import Q
+from ..scripts.simToUserPick import toUserPick
 
 def welcome(request):
     teams = Team.objects.all()
@@ -337,6 +338,66 @@ def onePick(request):
 
     return render(request, 'draft.html', context)
 def toUser(request):
-    return render(request, 'draft.html')
+    picksTo = toUserPick()
+    current = CurrentPick.objects.first()
+
+    
+    for pick in picksTo:
+        print("got")
+        team = Draft.objects.filter(pick=pick.pick).first()
+        team = team.team
+
+        prospect = Player.objects.filter(team_id='PROS').order_by('-ovr').first()
+        pick.player = prospect
+        pick.save()
+        print("PLayer picked: ", prospect, " team: ", team)
+        prospect.team_id = team.t_id
+        prospect.save()
+        current.pick += 1
+        current.save()
+
+    draft = Draft.objects.all()
+
+    prospects = Player.objects.filter(team_id='PROS').order_by("-ovr")
+    # print(prospects)
+    picks = Draft.objects.all()
+
+    context = {
+        'draft': draft,
+        'prospects': prospects,
+        'picks': picks,
+    }
+
+    return render(request, 'draft.html', context)
+
+def pickPlayer(request, id):
+    current = CurrentPick.objects.first()
+
+    pick = current.pick
+    draftPick = Draft.objects.filter(pick=pick).first()
+
+    team = draftPick.team
+
+    player = Player.objects.filter(id=id).first()
+
+    player.team_id = team
+    player.save()
+    draftPick.player = player
+    draftPick.save()
+
+    draft = Draft.objects.all()
+
+    prospects = Player.objects.filter(team_id='PROS').order_by("-ovr")
+    # print(prospects)
+    picks = Draft.objects.all()
+
+    context = {
+        'draft': draft,
+        'prospects': prospects,
+        'picks': picks,
+    }
+
+
+    return render(request, 'draft.html', context)
 
 

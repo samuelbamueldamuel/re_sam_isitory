@@ -22,6 +22,10 @@
             <a href="{% url 'onePick' %}">
                 <button>Sim One Pick</button>
             </a>
+
+            <a href="{% url 'toUser' %}">
+                <button>Sim To User Pick</button>
+            </a>
             <table>
                 <tr>
                     <td>
@@ -44,6 +48,12 @@
                                 </td>
                                 <td>
                                     {{prospect.ovr}}
+                                </td>
+
+                                <td>
+                                    <a href="{% url 'pickPlayer' id=prospect.id %}">
+                                        <button>Pick This Player</button>
+                                    </a>
                                 </td>
                             
 
