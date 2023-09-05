@@ -100,7 +100,9 @@ def popDict():
         altConfTeams = Team.objects.filter(~Q(conference=team.conference) & ~Q(t_id='FAA'))
         
         altConfTeams = list(altConfTeams)
-        teamsData[team.t_id] = {"fourList": [], "sixList": [], "divTeams": divTeams, "altConfTeams": altConfTeams, "games": numList}
+        id = team.t_id
+        id = str(id)
+        teamsData[id] = {"fourList": [], "sixList": [], "divTeams": divTeams, "altConfTeams": altConfTeams, "games": numList}
 
 def checkFourLen( teams):
     goodTeams = []
@@ -194,7 +196,7 @@ def emptySix():
         # teamsData[team]['fourList'].clear()
         teamsData[team]['sixList'].clear() 
         
-def popFour( team):
+def popFour(team):
     # emptyLists()
     confTeams = Team.objects.filter(Q(conference=team.conference) & ~Q(division=team.division) & ~Q(t_id=team.t_id))
     confTeams = list(confTeams)
@@ -237,8 +239,10 @@ def popSix( team):
     
         
 def schedConf():
+    print("here")
     teams = Team.objects.filter(~Q(t_id='FAA'))
     emptyLists()
+    pass
     for team in teams:
         popFour(team)
     emptySix()
